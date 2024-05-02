@@ -82,7 +82,7 @@ function ImageUpload({ fileUrl, setFileUrl, imageList, setImageList, register }:
                         body: img,
                         headers: {
                             'Content-type': img.type,
-                            'Access-Control-Allow-Origin': 'https://rentx-neon.vercel.app',
+                            'Access-Control-Allow-Origin': process.env.NODE_ENV === 'production' ? 'https://rentx-neon.vercel.app' : 'http://localhost:3000',
                         }
                     })
 
