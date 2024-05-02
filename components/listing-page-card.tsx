@@ -48,30 +48,32 @@ function ListingPageCard({ listing, images }: { images: { url: string, img_key: 
 
 
     return (
-        <div className="grid md:grid-cols-5 grid-cols-1 gap-4 col-span-3">
+        <div className="grid grid-cols-5 gap-4 xl:col-span-3 col-span-5">
             <CarouselImage classes={show ? ' visible' : ' hidden'} images={images} selected={selected} closeCarousel={closeCarousel} />
+            <div className="col-span-5 grid grid-cols-5 gap-4 w-full">
 
-            <div className="md:col-span-4 col-span-5 h-[400px]">
-                {images && images.map((img) => (
+                <div className="xl:col-span-4 col-span-5 w-full">
+                    {images && images.map((img) => (
 
-                    selected === img.img_key &&
-                    <div key={img.img_key} className="width-full h-full">
-                        <SkeletonCard classname={reveal ? ' hidden' : ' visible'} />
-                        <Image src={img.url} width={500} height={500} sizes="" onClick={() => setShow(true)} onLoad={() => setReveal(true)} alt="property image" className={`w-full h-full object-fit-cover cursor-pointer ${reveal ? 'visible' : 'hidden'}`} />
-                    </div>
+                        selected === img.img_key &&
+                        <div key={img.img_key} className="w-full h-full">
+                            <SkeletonCard classname={reveal ? ' hidden' : ' visible'} />
+                            <Image src={img.url} width={500} height={500} sizes="" onClick={() => setShow(true)} onLoad={() => setReveal(true)} alt="property image" className={`w-full h-full object-fit-cover cursor-pointer ${reveal ? 'visible' : 'hidden'}`} />
+                        </div>
 
-                ))
+                    ))
 
-                }
-            </div>
-            <div className="md:col-span-1 col-span-5 flex flex-row md:flex-col gap-4 md:overflow-y-scroll overflow-x-scroll md:h-[400px] h-[120px]">
-                {images && images.map((img) => (
-                    <div key={img.img_key} className={`md:w-full aspect-square w-[200px] md:h-[200px] cursor-pointer ${selected === img.img_key ? 'border-2 border-yellow-600' : ''}`}>
-                        <Image src={img.url} width={500} height={500} onClick={() => setSelected(img.img_key)} alt="property image" className={`h-full w-full object-fit-cover cursor-pointer`} />
-                    </div>
-                ))
+                    }
+                </div>
+                <div className="col-span-5 xl:col-span-1 flex flex-row xl:flex-col gap-4 xl:overflow-y-scroll overflow-x-scroll h-[120px] xl:h-full w-full">
+                    {images && images.map((img) => (
+                        <div key={img.img_key} className={`xl:w-full aspect-square h-[120px] cursor-pointer ${selected === img.img_key ? 'border-2 border-yellow-600' : ''}`}>
+                            <Image src={img.url} width={500} height={500} onClick={() => setSelected(img.img_key)} alt="property image" className={`h-full w-full object-fit-cover cursor-pointer`} />
+                        </div>
+                    ))
 
-                }
+                    }
+                </div>
             </div>
 
             <div className="col-span-5 flex flex-col gap-4">
