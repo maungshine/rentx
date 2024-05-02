@@ -13,7 +13,7 @@ import { SearchParamsType, filterListing } from '@/actions/listingActions';
 async function Main({ searchParams }: { searchParams: SearchParamsType }) {
     const allListing = await filterListing(searchParams);
     const currentUser = await getCurrentUser();
-    console.log(allListing);
+
     return (
 
         <HomepageListings allListing={allListing as ListingType[]} currentUser={currentUser as CurrentUser} />

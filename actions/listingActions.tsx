@@ -262,7 +262,7 @@ export const filterListing = async (searchParams: SearchParamsType) => {
         console.log(query)
         //@ts-ignore
         if (query.minPrice && query.maxPrice && +query.minPrice > +query.maxPrice) {
-            return { error: 'Max Price must be greater than Min Price' }
+            return []
         }
 
         const filterReduce = Object.keys(query) as Array<keyof typeof query>;
