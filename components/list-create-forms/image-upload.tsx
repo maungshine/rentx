@@ -82,7 +82,7 @@ function ImageUpload({ fileUrl, setFileUrl, imageList, setImageList, register }:
                         body: img,
                         headers: {
                             'Content-type': img.type,
-                            'Access-Control-Allow-Origin': 'http://localhost:3000',
+                            'Access-Control-Allow-Origin': process.env.NODE_ENV === 'production' ? 'https://rentx-neon.vercel.app' : 'http://localhost:3000',
                         }
                     })
 
@@ -92,6 +92,7 @@ function ImageUpload({ fileUrl, setFileUrl, imageList, setImageList, register }:
             } catch (error) {
                 console.log(error);
                 toast.error("Failed to upload")
+                return
             } finally {
 
                 e.target.files = null;
