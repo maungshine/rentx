@@ -127,12 +127,18 @@ export const getCurrentUser = async () => {
             where: {
                 email,
             },
-            include: {
+            select: {
+                id: true,
+                username: true,
+                email: true,
+                password: true,
+                role: true,
+                emailVerified: true,
                 favouriteIds: {
-                    include: {
-                        listing: true,
+                    where: {
+                        asignedBy: session.user?.id as string
                     }
-                }
+                },
             }
         });
 

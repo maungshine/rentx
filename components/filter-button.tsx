@@ -9,50 +9,181 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Checkbox, Input, Slider } from "@nextui-org/react";
+import { Checkbox, Input } from "@nextui-org/react";
 import { Card, CardContent } from "./ui/card";
 import { types } from "./list-create-forms/select-type";
 import CategoryInput from "./list-create-forms/category-input";
-import { useState } from "react";
+import { useRef } from "react";
 import toast from "react-hot-toast";
-import { filterListing } from "@/actions/listingActions";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import { ListingType } from "./listing-page-card";
+import queryString from "query-string";
 
 
 function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[]) => void }) {
-    const [selected, setSelected] = useState<string[]>([]);
-    const [bedroom, setBedroom] = useState(false);
-    const [bath, setBath] = useState(false);
-    const [parking, setParking] = useState(false);
-    const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(0);
-    const searchParams = useSearchParams();
 
-    const handleSubmit = async (formData: FormData) => {
-        const res = await filterListing(formData);
-        console.log(res);
-        // if (res) {
+    let minPriceRef = useRef<HTMLInputElement>(null);
+    let maxPriceRef = useRef<HTMLInputElement>(null);
+    let bedroomRef = useRef<HTMLInputElement>(null);
+    let bathRef = useRef<HTMLInputElement>(null);
+    let parkingRef = useRef<HTMLInputElement>(null);
+
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+
+    const handleSubmit = () => {
+
+        console.log(searchParams);
+        // const category = searchParams.get('category');
+        // try {
+
+        //     const res = await filterListing(formData, category);
+        //     console.log(open)
+
+        // } catch (error) {
         //     toast.error('Something went wrong. Try again later.')
         //     return
+
+        // } finally {
+        //     //@ts-ignore
+        //     filteredListing(res);
+        //     if (category) {
+        //         router.push(`/?category=${category}`)
+        //     } else {
+        //         router.refresh()
+        //     }
+
         // }
 
-        // filteredListing(res);
 
     }
 
+    const getQuery = (qName: string, name: string) => {
+        if (qName === name) {
+            return { name: name }
+        }
+        return null
+    }
+
+    const handleClick = (queryName: string, value: string) => {
+        let minPrice = getQuery(queryName, 'minPrice');
+        let maxPrice = getQuery(queryName, 'maxPrice');
+        let bedroom = getQuery(queryName, 'bedroom');
+        let bath = getQuery(queryName, 'bath');
+        let parking = getQuery(queryName, 'parking');
+        let propertyType = getQuery(queryName, 'propertyType');
+
+        let type = [];
+        let query = {};
+
+        if (searchParams) {
+            query = queryString.parse(searchParams.toString());
+            console.log('search: ', query)
+        }
+
+        let updatedQuery: any;
+        if (minPrice) {
+            updatedQuery = {
+                ...query,
+                minPrice: value
+            }
+        }
+        if (maxPrice) {
+            updatedQuery = {
+                ...query,
+                maxPrice: value
+            }
+        }
+        if (bath) {
+            updatedQuery = {
+                ...query,
+                bath: value
+            }
+        }
+        if (bedroom) {
+
+            updatedQuery = {
+                ...query,
+                bedroom: value
+            }
+
+        }
+        if (parking) {
+            updatedQuery = {
+                ...query,
+                parking: value
+            }
+        }
+        if (propertyType) {
+            //@ts-ignore
+            if (query['propertyType']) {
+                //@ts-ignore
+                if (query['propertyType'].split(',').includes(value)) {
+                    updatedQuery = {
+                        ...query,
+                        //@ts-ignore
+                        propertyType: query['propertyType'].split(',').filter((item) => item !== value).join(',')
+                    }
+                } else {
+
+                    console.log('no pt')
+                    updatedQuery = {
+                        ...query,
+                        //@ts-ignore
+                        propertyType: query.propertyType + ',' + value
+                    }
+                }
+
+            } else {
+                updatedQuery = {
+                    ...query,
+                    propertyType: [value]
+                }
+                console.log('pt')
+
+            }
+        }
+
+        if (searchParams?.get(queryName) === value || (['bath', 'bedroom', 'parking'].includes(queryName) && value === 'false')) {
+            delete updatedQuery[queryName];
+        }
+
+        if (minPrice && value === '') {
+            delete updatedQuery[queryName];
+
+        }
+
+        if (maxPrice && (value === '' || Number(value) === 0)) {
+            delete updatedQuery[queryName];
+
+        }
+
+        const url = queryString.stringifyUrl({
+            url: '/',
+            query: updatedQuery
+        }, { skipNull: true })
+        console.log(url);
+        router.push(url)
+    }
+
     return (
-        <Dialog>
+        <Dialog >
             <DialogTrigger asChild>
                 <Button variant={"outline"} className="py-[23px] rounded-xl flex gap-2 w-full md:w-auto">< FaFilter /> <span className="text-nowrap">Filter More</span></Button>
             </DialogTrigger>
+
             <DialogContent className="overflow-y-scroll h-[80vh] rounded-lg">
                 <DialogHeader>
                     <DialogTitle className="p-4 text-center" >Fliter Down The Listings</DialogTitle>
                     <DialogDescription>
                         <Card>
                             <CardContent>
-                                <form action={handleSubmit} className="p-4 flex flex-col gap-4">
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    handleSubmit();
+                                }} className="p-4 flex flex-col gap-4">
                                     <div className="flex gap-4">
                                         <Input
                                             placeholder="Min pirce"
@@ -60,14 +191,23 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                                             labelPlacement="inside"
                                             name="minPrice"
                                             variant={"bordered"}
-                                            value={minPrice.toString()}
+                                            ref={minPriceRef}
+                                            value={searchParams.get('minPrice') || ''}
+
                                             onChange={(e) => {
-                                                if (+e.target.value >= 0) {
-                                                    setMinPrice(+e.target.value)
+
+                                                if (minPriceRef.current === null) {
+
                                                     return
                                                 }
-                                                setMinPrice(0)
-                                                return
+                                                if (Number(minPriceRef.current.value) >= 0) {
+
+                                                    handleClick('minPrice', minPriceRef.current.value)
+
+                                                }
+
+
+
                                             }
                                             }
                                         />
@@ -77,43 +217,47 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                                             labelPlacement="inside"
                                             name="maxPrice"
                                             variant={'bordered'}
-                                            value={maxPrice.toString()}
+                                            ref={maxPriceRef}
+                                            value={searchParams.get('maxPrice') || ''}
                                             onChange={(e) => {
-                                                if (+e.target.value >= 0) {
-                                                    setMaxPrice(+e.target.value)
+
+                                                if (maxPriceRef.current === null) {
+
                                                     return
                                                 }
-                                                setMaxPrice(0);
-                                                return
-                                            }}
+                                                if (Number(maxPriceRef.current.value) >= 0) {
+
+                                                    handleClick('maxPrice', maxPriceRef.current.value)
+
+                                                }
+
+
+
+                                            }
+                                            }
                                         />
                                     </div>
                                     <div className="flex gap-4">
-                                        <Checkbox name="bedroom" value={bedroom.toString()} isSelected={bedroom} onValueChange={setBedroom}>Bedroom</Checkbox>
-                                        <Checkbox name="bath" value={bath.toString()} isSelected={bath} onValueChange={setBath}>Bath</Checkbox>
-                                        <Checkbox name="parking" value={parking.toString()} isSelected={parking} onValueChange={setParking}>Parking</Checkbox>
+                                        <Checkbox name="bedroom" value={searchParams.get('bedroom') as string} onChange={(e) => handleClick('bedroom', bedroomRef.current?.value as string)} isSelected={searchParams.get('bedroom') ? true : false} ref={bedroomRef} >Bedroom</Checkbox>
+                                        <Checkbox name="bath" value={searchParams.get('bath') as string} onChange={(e) => handleClick('bath', bathRef.current?.value as string)} isSelected={searchParams.get('bath') ? true : false} ref={bathRef} >Bath</Checkbox>
+                                        <Checkbox name="parking" value={searchParams.get('parking') as string} onChange={(e) => handleClick('parking', parkingRef.current?.value as string)} isSelected={searchParams.get('parking') ? true : false} ref={parkingRef} >Parking</Checkbox>
                                     </div>
                                     <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
-                                        <input type="text" value={selected} className="hidden" name="propertyType" />
+                                        <input type="text" value={searchParams.get('propertyType') as string} className="hidden" name="propertyType" />
                                         {types.map((item) => (
                                             <CategoryInput
                                                 onClick={() => {
-                                                    if (selected.includes(item)) {
-                                                        const removedList = selected.filter((el) => el !== item);
-                                                        setSelected(removedList);
-                                                    } else {
-                                                        setSelected(prev => [...prev, item]);
+                                                    if (searchParams.get('propertyType')?.split(',').includes(item)) {
 
                                                     }
+                                                    handleClick('propertyType', item)
+
                                                 }}
-                                                selected={selected.includes(item)}
+                                                selected={(searchParams.get('propertyType') ? searchParams.get('propertyType')?.split(',').includes(item) : false) as boolean}
                                                 label={item}
                                                 key={item}
                                             />
                                         ))}
-                                    </div>
-                                    <div className="flex items-center justify-center">
-                                        <Button className="w-full" >Apply Filters</Button>
                                     </div>
                                 </form>
                             </CardContent>

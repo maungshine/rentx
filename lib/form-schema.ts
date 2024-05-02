@@ -5,3 +5,18 @@ export const loginFormSchema = z.object({
     password: z.string(),
 })
 
+export type CurrentUser = {
+    favouriteIds: {
+        userId: string;
+        listingId: string;
+        asignedBy: string;
+    }[];
+} & {
+    id: string;
+    username: string;
+    email: string;
+    password: string | null;
+    role: string;
+    emailVerified: boolean | null;
+
+}

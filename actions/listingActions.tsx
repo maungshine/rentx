@@ -4,6 +4,7 @@ import { ListingType } from '@/components/edit-listing/edit-listing-form';
 import db from '@/db/prisma';
 import { getCurrentUser } from '@/lib/helper';
 import { error } from 'console';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 
@@ -30,6 +31,18 @@ const ListingFormSchema = z.object({
     })),
 
 })
+
+
+
+export type SearchParamsType = {
+    category?: string,
+    minPrice?: string | number,
+    maxPrice?: string | number,
+    bedroom?: string,
+    bath?: string,
+    parking?: string,
+    propertyType?: string,
+}
 
 
 const FilterListingSchema = z.object({
@@ -194,75 +207,13 @@ export const saveListing = async (data: ListingType) => {
 }
 
 
-export const filterListing = async (formData: FormData) => {
-    const result = FilterListingSchema.safeParse({
-        minPrice: formData.get('minPrice'),
-        maxPrice: formData.get('maxPrice'),
-        bath: formData.get('bath'),
-        bedroom: formData.get('bedroom'),
-        parking: formData.get('parking'),
-        propertyType: formData.get('propertyType'),
-    })
+type q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category']
 
-    if (!result.success) {
-        console.log(result.error.issues)
-        return { error: 'Something went wrong!' }
-    }
-
-    const { minPrice, maxPrice, bath, bedroom, parking, propertyType } = result.data;
-
-    if (minPrice > maxPrice) {
-        return { error: 'Max Price must be greater than Min Price' }
-    }
-
-    const filterReduce = Object.keys(result.data) as Array<keyof typeof result.data>;
-
-    const fullPrice = +minPrice === 0 && +maxPrice === 0;
-
-    const constructedWhere = filterReduce.reduce((aggregate, property) => {
-        if (property === 'minPrice' && !fullPrice) {
-
-            aggregate['price'] = { gt: Number(result.data[property]) };
-
-        } else if (property === 'maxPrice' && !fullPrice) {
-            if (aggregate['price']) {
-                aggregate['price'] = { ...aggregate.price, lt: Number(result.data[property]) };
-            } else {
-
-                aggregate['price'] = { lt: Number(result.data[property]) };
-            }
-
-        } else if (result.data[property] && (property === 'bath' || property === 'bedroom')) {
-
-            if (aggregate['amenties']) {
-
-                aggregate['amenties'] = property === 'bath' ? { ...aggregate.amenties, bath: { gt: 0 } } : { ...aggregate.amenties, bedroom: { gt: 0 } };
-            } else {
-
-                aggregate['amenties'] = property === 'bath' ? { bath: { gt: 0 } } : { bedroom: { gt: 0 } };
-            }
-
-        } else if (result.data[property] && property === 'parking') {
-            if (aggregate['amenties']) {
-                aggregate['amenties'] = { ...aggregate.amenties, parking: true };
-            } else {
-
-                aggregate['amenties'] = { parking: true };
-            }
-        } else if (result.data[property] && property === 'propertyType') {
-            const propertyType = result.data[property].split(',');
-
-            aggregate['type'] = { in: propertyType }
-        }
-
-        return aggregate;
-
-    }, {} as Record<keyof Property | 'price' | 'amenties' | 'type', {}>);
-
-    console.log(constructedWhere);
-
-    if (Object.keys(constructedWhere).length === 0) {
-
+export const filterListing = async (searchParams: SearchParamsType) => {
+    let q: q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category'];
+    let query: SearchParamsType = {};
+    console.log(searchParams);
+    if (Object.keys(searchParams).length === 0) {
         const listings = await db.listing.findMany({
             include: {
                 amenties: {
@@ -291,38 +242,108 @@ export const filterListing = async (formData: FormData) => {
         });
 
         return listings;
-    }
+    } else {
 
-    const listings = await db.listing.findMany({
+        q.forEach((value) => {
 
-        where: constructedWhere,
+            switch (searchParams[value]) {
+                case undefined:
+                    if (['minPrice', 'maxPrice'].includes(value)) {
+                        //@ts-ignore
+                        query[value] = null
+                    }
+                    break;
 
-        include: {
-            amenties: {
-                select: {
-                    bath: true,
-                    bedroom: true,
-                    parking: true
-                }
-            },
-            images: {
-                select: {
-                    url: true,
-                    img_key: true,
-                }
-            },
-            location: {
-                select: {
-                    city: true,
-                    township: true,
-                    ward: true,
-                    street: true,
-                    num: true,
-                }
+                default:
+                    //@ts-ignore
+                    query[value] = searchParams[value];
             }
+        })
+        console.log(query)
+        //@ts-ignore
+        if (query.minPrice && query.maxPrice && +query.minPrice > +query.maxPrice) {
+            return { error: 'Max Price must be greater than Min Price' }
         }
 
-    })
+        const filterReduce = Object.keys(query) as Array<keyof typeof query>;
 
-    return listings
+        const fullPrice = query.minPrice === 0 && query.maxPrice === 0;
+
+        const constructedWhere = filterReduce.reduce((aggregate, property) => {
+            if (query[property] && property === 'category') {
+                aggregate['township'] = { contains: query[property] }
+            } else if (property === 'minPrice' && !fullPrice && query['minPrice']) {
+
+                aggregate['price'] = { gt: Number(query[property]) };
+
+            } else if (property === 'maxPrice' && !fullPrice && query['maxPrice']) {
+                if (aggregate['price']) {
+                    aggregate['price'] = { ...aggregate.price, lt: Number(query[property]) };
+                } else {
+
+                    aggregate['price'] = { lt: Number(query[property]) };
+                }
+
+            } else if (query[property] && (property === 'bath' || property === 'bedroom')) {
+
+                if (aggregate['amenties']) {
+
+                    aggregate['amenties'] = property === 'bath' ? { ...aggregate.amenties, bath: { gt: 0 } } : { ...aggregate.amenties, bedroom: { gt: 0 } };
+                } else {
+
+                    aggregate['amenties'] = property === 'bath' ? { bath: { gt: 0 } } : { bedroom: { gt: 0 } };
+                }
+
+            } else if (query[property] && property === 'parking') {
+                if (aggregate['amenties']) {
+                    aggregate['amenties'] = { ...aggregate.amenties, parking: true };
+                } else {
+
+                    aggregate['amenties'] = { parking: true };
+                }
+            } else if (query && query[property] && property === 'propertyType') {
+                //@ts-ignore
+                const propertyType = query[property].split(',');
+
+                aggregate['type'] = { in: propertyType }
+            }
+
+            return aggregate;
+
+        }, {} as Record<keyof Property | 'price' | 'amenties' | 'type' | 'township', {}>);
+
+        console.log(constructedWhere);
+        const listings = await db.listing.findMany({
+
+            where: constructedWhere,
+
+            include: {
+                amenties: {
+                    select: {
+                        bath: true,
+                        bedroom: true,
+                        parking: true
+                    }
+                },
+                images: {
+                    select: {
+                        url: true,
+                        img_key: true,
+                    }
+                },
+                location: {
+                    select: {
+                        city: true,
+                        township: true,
+                        ward: true,
+                        street: true,
+                        num: true,
+                    }
+                }
+            }
+
+        })
+
+        return listings
+    }
 }

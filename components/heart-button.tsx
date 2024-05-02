@@ -1,4 +1,4 @@
-'use client';
+
 import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
@@ -9,30 +9,13 @@ import { Input } from "@nextui-org/input";
 
 interface HeartButtonProps {
     listingId: string;
+    favourited: boolean
 }
 
-function HeartButton({ listingId }: HeartButtonProps) {
-    const [favourited, setFavourited] = useState(false);
-
-    useEffect(() => {
-        fetch(`/api/listing/${listingId}/hasFavourited`)
-            .then(data => data.json())
-            .then(res => setFavourited(res))
-    }, [])
-
-    async function clientAction(formData: FormData) {
-        const result = await favourite(formData);
-
-        if (result.errors.message) {
-            toast.error(result.errors.message)
-            return
-        }
-        setFavourited(prev => !prev);
-    }
-
+function HeartButton({ favourited, listingId }: HeartButtonProps) {
     return (
         <form
-            action={clientAction}
+            action={favourite}
         >
             <Input name='listing_id' value={listingId} className='hidden' />
             <button

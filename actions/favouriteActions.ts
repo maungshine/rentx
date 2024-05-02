@@ -45,13 +45,14 @@ export const favourite = async (formData: FormData) => {
             })
         } else {
 
-            await db.favourites.create({
+            const fav = await db.favourites.create({
                 data: {
                     asignedBy: currentUser?.id,
                     listingId: result.data.listing_id,
                     userId: currentUser.id,
                 }
             })
+
         }
     } catch (error) {
         console.log(error);

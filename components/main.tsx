@@ -6,13 +6,17 @@ import FilterButton from './filter-button';
 import { ListingType } from './listing-page-card';
 import Category, { category } from './category';
 import Search from './search';
+import { getCurrentUser } from '@/lib/helper';
+import { CurrentUser } from '@/lib/form-schema';
+import { SearchParamsType, filterListing } from '@/actions/listingActions';
 
-async function Main({ searchParams }: { searchParams: { category: string } }) {
-    const allListing = await getAllListing(searchParams?.category ? searchParams.category : null);
-
+async function Main({ searchParams }: { searchParams: SearchParamsType }) {
+    const allListing = await filterListing(searchParams);
+    const currentUser = await getCurrentUser();
+    console.log(allListing);
     return (
 
-        <HomepageListings allListing={allListing} />
+        <HomepageListings allListing={allListing as ListingType[]} currentUser={currentUser as CurrentUser} />
 
     )
 }
