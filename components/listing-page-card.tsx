@@ -48,37 +48,39 @@ function ListingPageCard({ listing, images }: { images: { url: string, img_key: 
 
 
     return (
-        <div className="grid md:grid-cols-5 grid-cols-1 gap-4 col-span-3">
+        <div className="grid grid-cols-1 gap-4 col-span-3">
             <CarouselImage classes={show ? ' visible' : ' hidden'} images={images} selected={selected} closeCarousel={closeCarousel} />
+            <div className="grid xl:grid-cols-5 grid-cols-1 gap-4 col-span-1">
 
-            <div className="md:col-span-4 col-span-5 h-[400px]">
-                {images && images.map((img) => (
+                <div className="xl:col-span-4 col-span-5">
+                    {images && images.map((img) => (
 
-                    selected === img.img_key &&
-                    <div key={img.img_key} className="width-full h-full">
-                        <SkeletonCard classname={reveal ? ' hidden' : ' visible'} />
-                        <Image src={img.url} width={500} height={500} sizes="" onClick={() => setShow(true)} onLoad={() => setReveal(true)} alt="property image" className={`w-full h-full object-fit-cover cursor-pointer ${reveal ? 'visible' : 'hidden'}`} />
-                    </div>
+                        selected === img.img_key &&
+                        <div key={img.img_key} className="w-full h-full">
+                            <SkeletonCard classname={reveal ? ' hidden' : ' visible'} />
+                            <Image src={img.url} width={500} height={500} sizes="" onClick={() => setShow(true)} onLoad={() => setReveal(true)} alt="property image" className={`w-full h-full object-fit-cover cursor-pointer ${reveal ? 'visible' : 'hidden'}`} />
+                        </div>
 
-                ))
+                    ))
 
-                }
+                    }
+                </div>
+                <div className="xl:col-span-1 col-span-5 flex flex-row xl:flex-col gap-4 xl:overflow-y-scroll overflow-x-scroll aspect-square h-[120px] xl:h-full w-full">
+                    {images && images.map((img) => (
+                        <div key={img.img_key} className={`xl:w-full aspect-square h-full xl:h-auto cursor-pointer ${selected === img.img_key ? 'border-2 border-yellow-600' : ''}`}>
+                            <Image src={img.url} width={500} height={500} onClick={() => setSelected(img.img_key)} alt="property image" className={`h-full w-full object-fit-cover cursor-pointer`} />
+                        </div>
+                    ))
+
+                    }
+                </div>
             </div>
-            <div className="md:col-span-1 col-span-5 flex flex-row md:flex-col gap-4 md:overflow-y-scroll overflow-x-scroll md:h-[400px] h-[120px]">
-                {images && images.map((img) => (
-                    <div key={img.img_key} className={`md:w-full aspect-square w-[200px] md:h-[200px] cursor-pointer ${selected === img.img_key ? 'border-2 border-yellow-600' : ''}`}>
-                        <Image src={img.url} width={500} height={500} onClick={() => setSelected(img.img_key)} alt="property image" className={`h-full w-full object-fit-cover cursor-pointer`} />
-                    </div>
-                ))
 
-                }
-            </div>
-
-            <div className="col-span-5 flex flex-col gap-4">
-                <h2 className="mt-4 text-semibold text-2xl text-slate-600">{listing && listing.title}</h2>
+            <div className="col-span-1 flex flex-col gap-4 mb-auto">
+                <h2 className="text-semibold text-2xl text-slate-600">{listing && listing.title}</h2>
                 <div className="flex">
                     <p className="text-slate-600">${listing && listing.price}</p>
-                    <div className="flex mt-1 gap-2 align-items-center text-slate-400 ml-auto">
+                    <div className="flex mt-1 gap-2 align-items-center text-neutral-400 ml-auto">
                         <FaMapMarker />
                         <p>{listing && listing.location?.street} ,{listing && listing.location?.ward},{listing && listing.location?.township} ,{listing && listing.location?.city}</p>
                     </div>

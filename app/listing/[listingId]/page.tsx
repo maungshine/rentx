@@ -11,8 +11,8 @@ async function Listing({ params }: { params: { listingId: string } }) {
 
     return (
         <section className="mt-8">
-            <Container classnames="grid md:grid-cols-5 grid-cols-1 gap-8">
-                <Link href={`/listing/${params.listingId}/edit`} className="md:col-span-5 col-span-1  ml-auto text-slate-600 mr-4" underline="hover">Edit Listing</Link>
+            <Link href={`/listing/${params.listingId}/edit`} className="py-4 ml-auto inline-block mr-4" underline="hover">Edit Listing</Link>
+            <Container classnames="grid xl:grid-cols-5 grid-cols-1  gap-8">
                 <ListingPageCard listing={listing} images={listing?.images} />
                 <ListingAside listing={listing} />
 
