@@ -22,7 +22,7 @@ function Amenties({ amentiesList, register, setCustomValue }: AmentiesProps) {
         <div className="flex gap-8 flex-col h-[50vh] w-full mt-4">
             <div className="flex justify-between items-center">
                 <p>Bedroom</p>
-                <input type="number" {...register('bedroom')} className="hidden" />
+                <input type="number" {...register('bedroom')} />
                 <div className="flex gap-2 items-center">
                     <span onClick={() => setCustomValue('bedroom', bedroom + 1)} className="px-2 py-2 border-2 border-slate-300 bg-slate-400 text-white rounded-full cursor-pointer" > <FaPlus /> </span>
                     <span>{bedroom}</span>

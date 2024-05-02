@@ -9,11 +9,11 @@ const Map = dynamic(() => import('@/components/list-create-forms/map'), { suspen
 function ListingAside({ listing }: { listing: ListingType }) {
 
     return (
-
-        <div className='xl:col-span-2 col-span-1 flex items-center justify-center w-full xl:h-[100vh] h-[50vh] bg-black'>
-            <Map lat={listing ? listing.latitude : 16.8032} long={listing ? listing.longitude : 96.892} />
+        <div className="col-span-2 flex flex-col gap-4">
+            <div className='w-full md:h-[100vh] h-[50vh]'>
+                <Map lat={listing ? listing.latitude : 16.8032} long={listing ? listing.longitude : 96.892} />
+            </div>
         </div>
-
     )
 }
 

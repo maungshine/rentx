@@ -5,7 +5,7 @@ import { FormValues, Names } from "../add-listing";
 
 export const types = [
     'Apartment',
-    'Condo',
+    'Condon',
     'Studio',
     'House',
     'Hostel',
