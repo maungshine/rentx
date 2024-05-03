@@ -13,12 +13,13 @@ import { Checkbox, Input } from "@nextui-org/react";
 import { Card, CardContent } from "./ui/card";
 import { types } from "./list-create-forms/select-type";
 import CategoryInput from "./list-create-forms/category-input";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { ListingType } from "./listing-page-card";
 import queryString from "query-string";
+import { filterListing } from "@/actions/listingActions";
 
 
 function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[]) => void }) {
@@ -28,34 +29,43 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
     let bedroomRef = useRef<HTMLInputElement>(null);
     let bathRef = useRef<HTMLInputElement>(null);
     let parkingRef = useRef<HTMLInputElement>(null);
-
     const searchParams = useSearchParams();
     const router = useRouter();
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
-        console.log(searchParams);
-        // const category = searchParams.get('category');
-        // try {
 
-        //     const res = await filterListing(formData, category);
-        //     console.log(open)
+        const params = new URLSearchParams(searchParams.toString());
+        let query = {};
+        let url: string = '/?';
+        //@ts-ignore
+        for (const [key, value] of params.entries()) {
+            //@ts-ignore
+            query[key] = value;
+            if (url === '/?') {
+                url = url + key + '=' + value;
+            } else {
+                url = url + '&' + key + '=' + value;
 
-        // } catch (error) {
-        //     toast.error('Something went wrong. Try again later.')
-        //     return
+            }
+        }
 
-        // } finally {
-        //     //@ts-ignore
-        //     filteredListing(res);
-        //     if (category) {
-        //         router.push(`/?category=${category}`)
-        //     } else {
-        //         router.refresh()
-        //     }
 
-        // }
+
+        try {
+
+            const res = await filterListing(query);
+
+            filteredListing(res);
+
+        } catch (error) {
+            toast.error('Something went wrong. Try again later.')
+            return
+
+        } finally {
+            router.push(url);
+        }
 
 
     }
@@ -80,7 +90,6 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
 
         if (searchParams) {
             query = queryString.parse(searchParams.toString());
-            console.log('search: ', query)
         }
 
         let updatedQuery: any;
@@ -128,7 +137,7 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                     }
                 } else {
 
-                    console.log('no pt')
+
                     updatedQuery = {
                         ...query,
                         //@ts-ignore
@@ -141,7 +150,7 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                     ...query,
                     propertyType: [value]
                 }
-                console.log('pt')
+
 
             }
         }
@@ -164,8 +173,8 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
             url: '/',
             query: updatedQuery
         }, { skipNull: true })
-        console.log(url);
-        router.push(url)
+        window.history.pushState(null, '', url)
+
     }
 
     return (
@@ -180,10 +189,7 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                     <DialogDescription>
                         <Card>
                             <CardContent>
-                                <form onSubmit={(e) => {
-                                    e.preventDefault();
-                                    handleSubmit();
-                                }} className="p-4 flex flex-col gap-4">
+                                <form action={handleSubmit} className="p-4 flex flex-col gap-4">
                                     <div className="flex gap-4">
                                         <Input
                                             placeholder="Min pirce"
@@ -247,9 +253,10 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                                         {types.map((item) => (
                                             <CategoryInput
                                                 onClick={() => {
-                                                    if (searchParams.get('propertyType')?.split(',').includes(item)) {
-
-                                                    }
+                                                    // if (searchParams.get('propertyType') === 'Share Room') {
+                                                    //     handleClick('propertyType', 'Share_Room')
+                                                    //     return
+                                                    // }
                                                     handleClick('propertyType', item)
 
                                                 }}
@@ -259,6 +266,7 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                                             />
                                         ))}
                                     </div>
+                                    <Button type="button" onClick={() => handleSubmit()}>Apply Filters</Button>
                                 </form>
                             </CardContent>
                         </Card>

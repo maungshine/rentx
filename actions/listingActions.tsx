@@ -207,7 +207,7 @@ export const saveListing = async (data: ListingType) => {
 }
 
 
-type q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category']
+export type q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category']
 
 export const filterListing = async (searchParams: SearchParamsType) => {
     let q: q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category'];
