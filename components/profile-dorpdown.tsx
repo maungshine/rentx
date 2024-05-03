@@ -1,7 +1,11 @@
+import { getCurrentUser } from "@/lib/helper";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Avatar, User } from "@nextui-org/react";
+import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
-function ProfileDropdown() {
+function ProfileDropdown({ session }: { session: Session | null }) {
+
     const handleGoogleSignOut = () => {
         signOut();
     }
@@ -13,21 +17,23 @@ function ProfileDropdown() {
                     as="button"
                     avatarProps={{
                         isBordered: true,
-                        src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                        src: session?.user?.image as string,
                     }}
                     className="transition-transform"
-                    description="@tonyreichert"
-                    name="Tony Reichert"
+                    description={'@' + session?.user?.email?.split('@')[0]}
+                    name={session?.user?.name}
 
                 />
             </DropdownTrigger>
             <DropdownMenu aria-label="User Actions" variant="flat">
                 <DropdownItem key="profile" className="h-14 gap-2">
                     <p className="font-bold">Signed in as</p>
-                    <p className="font-bold">@tonyreichert</p>
+                    <p className="font-bold">{session?.user?.name}</p>
                 </DropdownItem>
                 <DropdownItem key="settings">
-                    My Settings
+                    <Link href='/profile'>
+                        Profile
+                    </Link>
                 </DropdownItem>
 
                 <DropdownItem key="logout" color="danger" as={Button} onClick={() => handleGoogleSignOut()}>

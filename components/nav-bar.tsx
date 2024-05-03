@@ -60,7 +60,7 @@ function NavBar({ session }: { session: Session | null }) {
                     {!!session?.user && (
                         <>
                             <NavbarItem>
-                                <ProfileDropdown />
+                                <ProfileDropdown session={session} />
                             </NavbarItem>
                         </>
                     )}
