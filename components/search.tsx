@@ -1,13 +1,120 @@
-import React from "react";
+'use client';
+import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./search-icon";
 import { Button } from "./ui/button";
+import { useRouter, useSearchParams } from "next/navigation";
+import { SearchParamsType } from "@/actions/listingActions";
+
 
 export default function Search({ classnames }: { classnames?: string }) {
+    const searchParams = useSearchParams();
+    const inputRef = useRef<HTMLInputElement>(null);
+    const router = useRouter()
+    const [search, setSearch] = useState<string>('')
+
+    function getQuery(): SearchParamsType {
+        const params = new URLSearchParams(searchParams.toString());
+        let query: { query: string } | {} = {};
+        //@ts-ignore
+        for (const [key, value] of params.entries()) {
+            //@ts-ignore
+            query[key] = `${value}`;
+        }
+
+        return query
+    }
+
+    const query = getQuery();
+
+
+    function getUrl(query: SearchParamsType) {
+        if (Object.keys(query).length === 0) {
+
+            return '/'
+        }
+
+        let url: string = '/?';
+        //@ts-ignore
+        for (const [key, value] of Object.entries(query)) {
+            if (url === '/?') {
+                url = url + key + '=' + value;
+            } else {
+                url = url + '&' + key + '=' + value;
+
+            }
+        }
+
+        return url
+
+    }
+
+    useEffect(() => {
+
+        let query = getQuery();
+        let url: string = '';
+        //check if the query is present in url params
+        const hasQuery = Object.keys(query).includes('query');
+
+        const emptySearchBox = search.trim() === ' ' || search.trim() === ''
+
+        if (emptySearchBox && hasQuery) {
+            delete query.query
+            url = getUrl(query);
+            window.history.pushState(null, '', url);
+            return
+        } else if (emptySearchBox && !hasQuery) {
+            url = getUrl(query);
+            window.history.pushState(null, '', url);
+            return
+        }
+
+        query['query'] = search;
+        url = getUrl(query);
+        window.history.pushState(null, '', url);
+
+
+
+    }, [search])
+
     return (
         <Input
 
+            // onChange={(e) => {
+            //     inputRef.current.value = e.target.value
+            // let query = getQuery();
+            // let url: string = '/'
+
+            // let hasQuery = Object.keys(query).includes('query');
+
+            // if (inputRef.current && inputRef.current.value !== '' && inputRef.current.value !== ' ') {
+
+            //     query['query'] = `${inputRef.current.value.toString()}`;
+            //     console.log(query);
+            //     url = getUrl(query);
+            //     window.history.pushState(null, '', url);
+            //     console.log('hello')
+
+            // } else if (inputRef.current && query.query) {
+            //     query['query'] = inputRef.current.value;
+            //     window.history.pushState(null, '', url);
+
+            // } else {
+            //     console.log('hello')
+            //     if (!hasQuery) {
+            //         url = getUrl(query);
+            //         window.history.pushState(null, '', url);
+            //     } else {
+            //         delete query.query
+            //         window.history.pushState(null, '', url);
+            //     }
+
+            // }
+            // }}
+
             radius="lg"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
 
             classNames={{
                 label: "text-black/50 dark:text-white/90",
@@ -38,8 +145,14 @@ export default function Search({ classnames }: { classnames?: string }) {
                 <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
             }
             endContent={
-                <Button type="submit" className="text-black/50 mb-0.5 bg-white/60 cursor-pointer rounded-2xl dark:text-white/90 backdrop-blur-lg flex-shrink-0 hover:text-neutral-800 hover:border-neutral-800 hover:border hover:bg-white/700" >Search</Button>
+                <Button type="button" onClick={(e) => {
+                    const url = getUrl(getQuery())
+                    console.log(url);
+                    router.push(url);
+
+                }} className="text-black/50 mb-0.5 bg-white/60 cursor-pointer rounded-2xl dark:text-white/90 backdrop-blur-lg flex-shrink-0 hover:text-neutral-800 hover:border-neutral-800 hover:border hover:bg-white/700" >Search</Button>
             }
         />
+
     );
 }

@@ -42,6 +42,7 @@ export type SearchParamsType = {
     bath?: string,
     parking?: string,
     propertyType?: string,
+    query?: string,
 }
 
 
@@ -207,10 +208,10 @@ export const saveListing = async (data: ListingType) => {
 }
 
 
-export type q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category']
+export type q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category', 'query']
 
 export const filterListing = async (searchParams: SearchParamsType) => {
-    let q: q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category'];
+    let q: q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category', 'query'];
     let query: SearchParamsType = {};
     console.log(searchParams);
     if (Object.keys(searchParams).length === 0) {
@@ -306,11 +307,14 @@ export const filterListing = async (searchParams: SearchParamsType) => {
                 const propertyType = query[property].split(',');
 
                 aggregate['type'] = { in: propertyType }
+            } else if (query && query[property] && property === 'query') {
+                aggregate['title'] = { contains: query[property], mode: 'insensitive' }
+                aggregate['description'] = { contains: query[property], mode: 'insensitive' }
             }
 
             return aggregate;
 
-        }, {} as Record<keyof Property | 'price' | 'amenties' | 'type' | 'township', {}>);
+        }, {} as Record<keyof Property | 'price' | 'amenties' | 'type' | 'township' | 'title' | 'description', {}>);
 
         console.log(constructedWhere);
         const listings = await db.listing.findMany({
