@@ -80,38 +80,6 @@ export default function Search({ classnames }: { classnames?: string }) {
     return (
         <Input
 
-            // onChange={(e) => {
-            //     inputRef.current.value = e.target.value
-            // let query = getQuery();
-            // let url: string = '/'
-
-            // let hasQuery = Object.keys(query).includes('query');
-
-            // if (inputRef.current && inputRef.current.value !== '' && inputRef.current.value !== ' ') {
-
-            //     query['query'] = `${inputRef.current.value.toString()}`;
-            //     console.log(query);
-            //     url = getUrl(query);
-            //     window.history.pushState(null, '', url);
-            //     console.log('hello')
-
-            // } else if (inputRef.current && query.query) {
-            //     query['query'] = inputRef.current.value;
-            //     window.history.pushState(null, '', url);
-
-            // } else {
-            //     console.log('hello')
-            //     if (!hasQuery) {
-            //         url = getUrl(query);
-            //         window.history.pushState(null, '', url);
-            //     } else {
-            //         delete query.query
-            //         window.history.pushState(null, '', url);
-            //     }
-
-            // }
-            // }}
-
             radius="lg"
             onChange={(e) => setSearch(e.target.value)}
             value={search}
@@ -147,7 +115,7 @@ export default function Search({ classnames }: { classnames?: string }) {
             endContent={
                 <Button type="button" onClick={(e) => {
                     const url = getUrl(getQuery())
-                    console.log(url);
+
                     router.push(url);
 
                 }} className="text-black/50 mb-0.5 bg-white/60 cursor-pointer rounded-2xl dark:text-white/90 backdrop-blur-lg flex-shrink-0 hover:text-neutral-800 hover:border-neutral-800 hover:border hover:bg-white/700" >Search</Button>
