@@ -1,7 +1,7 @@
 'use server';
 import db from "@/db/prisma";
 import { getCurrentUser } from "@/lib/helper"
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from 'zod';
 
 const FavouriteFormSchema = z.object({
@@ -63,7 +63,7 @@ export const favourite = async (formData: FormData) => {
         }
     }
 
-    revalidatePath('/')
+    // revalidateTag('HeartButton');
 
     return {
         errors: {}

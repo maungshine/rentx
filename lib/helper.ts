@@ -139,6 +139,11 @@ export const getCurrentUser = async () => {
                         asignedBy: session.user?.id as string
                     }
                 },
+                listings: {
+                    where: {
+                        asignedBy: session.user?.id as string
+                    }
+                }
             }
         });
 

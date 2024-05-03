@@ -13,8 +13,9 @@ import Image from "next/image";
 import { FaBath, FaBed, FaMapMarker, FaParking } from "react-icons/fa";
 import HeartButton from "./heart-button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { CurrentUser } from "@/lib/form-schema";
+import { Spinner } from "@nextui-org/react";
 
 interface ListingCardProps {
     currentUser: CurrentUser;
@@ -41,14 +42,16 @@ interface ListingCardProps {
 
 export async function ListingCard({ currentUser, listingId, title, type, location, amenties, availability, images, price }: ListingCardProps) {
 
-    const fav = currentUser ? currentUser.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
 
     return (
         <Card className="border col-span-1 cursor-pointer group h-full">
             <CardContent className="p-0 md:h-[160px] h-[240px] w-full relative overflow-hidden rounded-t-xl">
                 <Image fill src={images[0].url} className="rounded-t-xl h-full w-full object-cover group-hover:rounded-t-xl group-hover:scale-110 transition" alt={title} />
                 <div className="absolute top-3 right-3">
-                    <HeartButton favourited={fav} listingId={listingId} />
+                    <Suspense fallback={<Spinner />}>
+
+                        <HeartButton listingId={listingId} />
+                    </Suspense>
                 </div>
             </CardContent>
             <Link href={`/listing/${listingId}`} key={listingId} >
