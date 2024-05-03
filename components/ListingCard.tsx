@@ -41,7 +41,7 @@ interface ListingCardProps {
 
 export async function ListingCard({ currentUser, listingId, title, type, location, amenties, availability, images, price }: ListingCardProps) {
 
-    const fav = currentUser.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1;
+    const fav = currentUser ? currentUser.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
 
     return (
         <Card className="border col-span-1 cursor-pointer group h-full">
