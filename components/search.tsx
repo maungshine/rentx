@@ -49,7 +49,7 @@ export default function Search({ classnames }: { classnames?: string }) {
 
     }
 
-    useEffect(() => {
+   {/* useEffect(() => {
 
         let query = getQuery();
         let url: string = '';
@@ -75,7 +75,7 @@ export default function Search({ classnames }: { classnames?: string }) {
 
 
 
-    }, [search])
+    }, [search])*/}
 
     return (
         <Input
