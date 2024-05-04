@@ -19,7 +19,7 @@ function HeartButton({ listingId }: HeartButtonProps) {
     const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
     const [fav, setFav] = useState(favourited);
     const getUser = useCallback(() => {
-        fetch('/api/user')
+        fetch('/api/currentUser')
             .then(res => res.json())
             .then((data) => {
                 setUser(data);
