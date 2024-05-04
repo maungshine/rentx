@@ -208,7 +208,7 @@ function EditListingForm() {
             <div className="flex flex-col gap-8">
                 <h1 className="text-2xl text-center font-semibold">Edit Listing</h1>
 
-                <Card className="p-8">
+                <Card className="md:p-8">
                     <CardHeader>
                         Township
                     </CardHeader>
@@ -248,7 +248,7 @@ function EditListingForm() {
                     </CardFooter>
                 </Card>
 
-                <Card className="p-8">
+                <Card className="md:p-8">
                     <CardHeader>
                         Type
                     </CardHeader>
@@ -279,14 +279,14 @@ function EditListingForm() {
                     </CardContent>
                 </Card>
 
-                <Card className="p-8 h-[400px]">
-                    <CardContent className='flex gap-4 items-center h-full p-8'>
+                <Card className="md:p-8 h-auto md:h-[400px]">
+                    <CardContent className='flex gap-4 items-center md:h-full p-8 md:flex-row flex-col'>
 
-                        <div className="flex w-[320px] shrink-0 items-center justify-center border-2 border-slate-500 border-dotted h-full">
+                        <div className="flex w-[320px] shrink-0 h-[200px] items-center justify-center border-2 border-slate-500 border-dotted md:h-full">
                             <Label htmlFor="picture" className="border border-slate-400 bg-gray-100 py-2 px-2 cursor-pointer text-xs text-slate-600">Upload Images</Label>
                         </div>
                         <Input id="picture" multiple={true} type="file" onChange={(e) => handleUpload(e)} onBlur={onBlur} ref={ref} name={name} className="hidden" />
-                        <div className="gap-4 overflow-x-scroll h-[320px] flex items-center justify-start">
+                        <div className="gap-4 px-4 overflow-x-scroll h-[320px] flex items-center justify-start">
                             {listing.images.length > 0 &&
                                 <>
                                     {listing.images.map((url) =>
@@ -323,7 +323,7 @@ function EditListingForm() {
                     </CardContent>
                 </Card>
 
-                <Card className="p-8">
+                <Card className="md:p-8">
                     <CardHeader>
                         Location
                     </CardHeader>
@@ -367,7 +367,7 @@ function EditListingForm() {
 
 
 
-                <Card className="p-8">
+                <Card className="md:p-8">
                     <CardHeader>
                         Address
                     </CardHeader>
@@ -454,7 +454,7 @@ function EditListingForm() {
                     </CardContent>
                 </Card>
 
-                <Card className="p-8">
+                <Card className="md:p-8">
                     <CardHeader>
                         Amenties
                     </CardHeader>
@@ -518,7 +518,7 @@ function EditListingForm() {
                 </Card >
 
 
-                <Card className="p-8">
+                <Card className="md:p-8">
                     <CardHeader>
                         Title and description
                     </CardHeader>
@@ -560,7 +560,7 @@ function EditListingForm() {
                 </Card>
 
 
-                <Card className="p-8">
+                <Card className="md:p-8">
                     <CardHeader>
                         Amenties
                     </CardHeader>

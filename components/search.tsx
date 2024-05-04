@@ -115,9 +115,9 @@ export default function Search({ classnames }: { classnames?: string }) {
             }
             endContent={
                 <Button type="button" onClick={(e) => {
-                    // const url = getUrl(getQuery())
+                    const url = getUrl(getQuery())
 
-                    // router.push(url);
+                    router.push(url);
 
                 }} className="text-black/50 mb-0.5 bg-white/60 cursor-pointer rounded-2xl dark:text-white/90 backdrop-blur-lg flex-shrink-0 hover:text-neutral-800 hover:border-neutral-800 hover:border hover:bg-white/700" >Search</Button>
             }

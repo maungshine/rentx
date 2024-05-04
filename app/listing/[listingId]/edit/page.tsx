@@ -9,7 +9,7 @@ import EditListingForm from "@/components/edit-listing/edit-listing-form";
 function EditListing({ params }: { params: { listingId: string } }) {
 
     return (
-        <section className="mt-4 p-8">
+        <section className="mt-4">
             <Container>
                 <ListingContextProvider>
                     <EditListingForm />

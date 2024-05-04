@@ -22,14 +22,14 @@ function HomepageListings({ allListing, currentUser }: { allListing: ListingType
 
     return (
         <Container>
-            <section className="flex md:flex-row flex-col items-center justify-center md:justify-between gap-8 mt-8">
+            <section className="flex md:flex-row md:gap-4 flex-col items-center justify-center md:justify-between gap-2 mt-4">
                 <Category />
                 <FilterButton filteredListing={filterListing} />
                 <form className="flex md:hidden w-full">
-                     <Search />
+                    <Search />
                 </form>
             </section>
-            <div className="gap-8 mt-24 grid grid-cols-1 sm:gird-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:gird-cols-6">
+            <div className="gap-8 mt-8 grid grid-cols-1 sm:gird-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:gird-cols-6">
                 {filteredListing && filteredListing.map((listing) => (
                     <div key={listing && listing.id}>
                         {listing &&
