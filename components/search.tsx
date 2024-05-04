@@ -3,15 +3,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./search-icon";
 import { Button } from "./ui/button";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { SearchParamsType } from "@/actions/listingActions";
 
 
 export default function Search({ classnames }: { classnames?: string }) {
     const searchParams = useSearchParams();
-    const inputRef = useRef<HTMLInputElement>(null);
+    
     const router = useRouter()
     const [search, setSearch] = useState<string>('')
+    const path = usePathname();
 
     function getQuery(): SearchParamsType {
         const params = new URLSearchParams(searchParams.toString());
@@ -31,13 +32,13 @@ export default function Search({ classnames }: { classnames?: string }) {
     function getUrl(query: SearchParamsType) {
         if (Object.keys(query).length === 0) {
 
-            return '/'
+            return path
         }
 
-        let url: string = '/?';
+        let url: string = path + '/?';
         //@ts-ignore
         for (const [key, value] of Object.entries(query)) {
-            if (url === '/?') {
+            if (url === path + '/?') {
                 url = url + key + '=' + value;
             } else {
                 url = url + '&' + key + '=' + value;
@@ -49,7 +50,7 @@ export default function Search({ classnames }: { classnames?: string }) {
 
     }
 
-   {/* useEffect(() => {
+    useEffect(() => {
 
         let query = getQuery();
         let url: string = '';
@@ -75,7 +76,7 @@ export default function Search({ classnames }: { classnames?: string }) {
 
 
 
-    }, [search])*/}
+    }, [search])
 
     return (
         <Input
