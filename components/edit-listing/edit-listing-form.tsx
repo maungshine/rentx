@@ -290,7 +290,7 @@ function EditListingForm() {
                             {listing.images.length > 0 &&
                                 <>
                                     {listing.images.map((url) =>
-                                        <div key={url.img_key} className="w-[320px] shrink-0 relative">
+                                        <div key={url.img_key} className="md:w-[320px] h-[200px] md:h-auto aspect-square shrink-0 relative">
                                             <FaTrashAlt onClick={(e) => {
                                                 imgToBeDelete.push(url);
                                                 const filteredArr = listing.images.filter((img) => img.img_key !== url.img_key);
@@ -307,7 +307,7 @@ function EditListingForm() {
                             {imgToBeSave.length > 0 &&
                                 <>
                                     {imgToBeSave.map((url) =>
-                                        <div key={url.img_key} className="w-[320px] shrink-0 relative">
+                                        <div key={url.img_key} className="md:w-[320px] h-[200px] aspect-square md:h-auto shrink-0 relative">
                                             <FaTrashAlt onClick={(e) => {
                                                 imgToBeDelete.push(url);
                                             }} className="absolute top-2 right-2 text-slate-700 text-2xl cursor-pointer" />
