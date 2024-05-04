@@ -39,7 +39,7 @@ function LoginForm() {
                     />
                     <Link href='/get-reset-link' className="text-gray-400 text-sm" underline="hover">Forget password?</Link>
                     {state.errors._form && (
-                        <div className="bg-red-200 text-red-600 border border-2 border-red-300 py-3 px-2 rounded-lg">
+                        <div className="bg-red-200 text-red-600 border-2 border-red-300 py-3 px-2 rounded-lg">
                             {state.errors._form.join(', ')}
                         </div>
                     )}
