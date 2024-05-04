@@ -17,9 +17,9 @@ function HeartButton({ listingId }: HeartButtonProps) {
 
     const [user, setUser] = useState<CurrentUser | null>(null);
     const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
-    const [fav, setFav] = useState(favourited);
+
     const getUser = useCallback(() => {
-        fetch('/api/currentUser')
+        fetch('/api/user')
             .then(res => res.json())
             .then((data) => {
                 setUser(data);
