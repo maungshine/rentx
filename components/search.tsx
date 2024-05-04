@@ -35,10 +35,10 @@ export default function Search({ classnames }: { classnames?: string }) {
             return path
         }
 
-        let url: string = path + '/?';
+        let url: string = path + '?';
         //@ts-ignore
         for (const [key, value] of Object.entries(query)) {
-            if (url === path + '/?') {
+            if (url === path + '?') {
                 url = url + key + '=' + value;
             } else {
                 url = url + '&' + key + '=' + value;
