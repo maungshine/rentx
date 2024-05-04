@@ -8,7 +8,7 @@ export async function GET(request: Request, { params }: { params: { listingId: s
 
     const session: Session | null = await auth();
     const email = session?.user?.email;
-    if (!email) return null;
+    if (!email) return NextResponse.json(null);
 
     const currentUser = await db.user.findFirst({
         where: {

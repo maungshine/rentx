@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@/lib/helper";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Avatar, User } from "@nextui-org/react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
@@ -14,6 +13,7 @@ function ProfileDropdown({ session }: { session: Session | null }) {
         <Dropdown placement="bottom-start">
             <DropdownTrigger>
                 <User
+
                     as="button"
                     avatarProps={{
                         isBordered: true,
