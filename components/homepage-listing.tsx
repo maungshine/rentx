@@ -26,7 +26,7 @@ function HomepageListings({ allListing, currentUser }: { allListing: ListingType
                 <Category />
                 <FilterButton filteredListing={filterListing} />
                 <form className="flex md:hidden w-full">
-                    <Search />
+                     <Search />
                 </form>
             </section>
             <div className="gap-8 mt-24 grid grid-cols-1 sm:gird-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:gird-cols-6">

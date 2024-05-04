@@ -32,7 +32,7 @@ function NavBar({ session }: { session: Session | null }) {
 
                     <NavbarItem className="flex-1 md:flex hidden">
                         <form className="flex flex-col" >
-                            <Search classnames="w-full" />
+                           {/* <Search*/} classnames="w-full" />
                         </form>
                     </NavbarItem>
                     <NavbarItem className="inline-block md:hidden">
