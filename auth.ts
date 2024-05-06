@@ -80,8 +80,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (token.provider === 'credentials' && !currentUser.emailVerified) {
                 token.expires = new Date(new Date().getTime() + 300 * 1000)
             }
-            console.log(token);
-
+            console.log('account: ', account);
+            console.log('profile: ', profile);
             return {
                 ...token,
 
