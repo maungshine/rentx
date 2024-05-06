@@ -23,12 +23,6 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
     const router = useRouter();
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
-    // const { data: session, update } = useSession()
-    console.log('session : ', session)
-    // useEffect(() => {
-    //     router.refresh();
-    // }, [update])
-
 
     return (
         <Card className='w-full'>
@@ -114,14 +108,6 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
                                 //@ts-ignore
                                 if (res.success || res.warning) {
                                     toast.success('reached here')
-
-                                    // update({
-                                    //     email: email,
-                                    //     name: name,
-                                    //     expires: new Date(new Date().getTime() + 600 * 1000)
-                                    // })
-
-
 
                                     setMode('normal');
 
