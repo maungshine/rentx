@@ -80,6 +80,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (token.provider === 'credentials' && !currentUser.emailVerified) {
                 token.expires = new Date(new Date().getTime() + 300 * 1000)
             }
+            console.log(token);
 
             return {
                 ...token,
@@ -92,7 +93,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         async session({ session, token }) {
 
 
-
+            console.log(token)
             return {
                 ...session,
                 expires: token.expires as ISODateString || session.expires,
