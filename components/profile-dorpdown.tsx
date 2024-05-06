@@ -1,10 +1,11 @@
+import { getCurrentUser } from "@/lib/helper";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Avatar, User } from "@nextui-org/react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
-function ProfileDropdown({ session }: { session: Session | null }) {
-
+async function ProfileDropdown({ session }: { session: Session | null }) {
+    const currentUser = await getCurrentUser();
     const handleGoogleSignOut = () => {
         signOut();
     }
@@ -17,7 +18,7 @@ function ProfileDropdown({ session }: { session: Session | null }) {
                     as="button"
                     avatarProps={{
                         isBordered: true,
-                        src: session?.user?.image as string,
+                        src: currentUser?.profileImageUrl || session?.user?.image as string,
                     }}
                     className="transition-transform"
                     description={'@' + session?.user?.email?.split('@')[0]}
