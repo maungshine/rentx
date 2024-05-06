@@ -8,6 +8,7 @@ import { loginFormSchema } from "@/lib/form-schema";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { generatePasswordResetToken, generateVerificationCode, getVerificationTokenByToken, sendPasswordResetEmail, sendVerificationEmail } from "@/lib/helper";
+import { getSession } from "next-auth/react";
 
 const registerFormSchema = z.object({
     username: z.string().min(6).regex(/[a-z-]/, {
@@ -194,6 +195,18 @@ export const login = async (formState: loginFormState, formData: FormData): Prom
         return {
             errors: {
                 _form: ['Email doesn\'t exist'],
+            }
+        }
+    }
+
+    if (!user.emailVerified) {
+        const token = await generateVerificationCode(user.email);
+
+        await sendVerificationEmail(user.email, token)
+
+        return {
+            errors: {
+                _form: [`Please verify your email. A verification email is sent to ${user.email}`],
             }
         }
     }

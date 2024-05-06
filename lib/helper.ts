@@ -132,6 +132,8 @@ export const getCurrentUser = async () => {
                 username: true,
                 email: true,
                 password: true,
+                profileImageKey: true,
+                profileImageUrl: true,
                 role: true,
                 emailVerified: true,
                 favouriteIds: {

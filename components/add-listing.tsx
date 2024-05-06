@@ -297,7 +297,7 @@ export function AddListing({ session }: { session: Session | null }) {
                     {currentStep === STEPS.IMAGES && <ImageUpload register={register} imageList={imageList} setImageList={setImageList} fileUrl={fileUrl} setFileUrl={setFileUrl} />}
                     {currentStep === STEPS.PRICE && <PriceAvailability errors={formState.errors} availability={availability} setCustomValue={setCustomValue} register={register} />}
 
-                    <DialogFooter className="flex flex-col mt-auto">
+                    <DialogFooter className="flex gap-4 mt-auto">
                         {secondaryActionLabel !== undefined &&
                             <Button type="button" className="w-full" onClick={back}>{secondaryActionLabel}</Button>
                         }

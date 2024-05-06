@@ -16,6 +16,8 @@ export type CurrentUser = {
     username: string;
     email: string;
     password: string | null;
+    profileImageUrl: string | null,
+    profileImageKey: string | null,
     role: string;
     emailVerified: boolean | null;
 

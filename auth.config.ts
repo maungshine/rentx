@@ -4,6 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import db from "./db/prisma";
 import bcrypt from 'bcryptjs';
 import { loginFormSchema } from "./lib/form-schema";
+import { PrismaAdapter } from "@auth/prisma-adapter"
+
 
 
 
@@ -38,11 +40,6 @@ export const authConfig = {
                         return null;
                     }
 
-                    if (!user?.emailVerified) {
-
-                        return null
-
-                    }
 
                     return user;
                 } catch (err) {
@@ -57,15 +54,17 @@ export const authConfig = {
     ],
 
     callbacks: {
+
         async signIn(params) {
-            console.log(params.user, params.account, params.profile)
-            if (params.account?.provider === 'google') {
-                try {
-                    const user = await db.user.findFirst({
-                        where: {
-                            email: params.profile?.email as string
-                        }
-                    });
+
+            try {
+                const user = await db.user.findFirst({
+                    where: {
+                        email: params.profile?.email as string
+                    }
+                });
+                if (params.account?.provider === 'google') {
+
 
                     if (!user) {
                         const createUser = await db.user.create({
@@ -77,11 +76,42 @@ export const authConfig = {
                         });
                     }
 
-                } catch (error) {
-                    return false;
                 }
+            } catch (error) {
+                return false;
             }
             return true;
         },
+        async jwt({ token, user, session, trigger }) {
+            if (trigger === 'update' && session?.email) {
+                token.email = session.email
+            }
+
+            if (trigger === 'update' && session?.name) {
+                token.name = session.name
+            }
+
+            if (trigger === 'update' && session?.expires) {
+                token.expires = session.expires
+            }
+
+            if (user) {
+
+                return {
+                    ...token,
+
+                }
+            }
+
+            return token
+        },
+        async session({ session, token }) {
+
+
+            return {
+                ...session,
+
+            }
+        }
     }
 } satisfies NextAuthConfig;

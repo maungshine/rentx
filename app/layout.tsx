@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "./providers";
 import NavBar from "@/components/nav-bar";
 import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +23,11 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
+
+
           <NavBar session={session} />
           {children}
+
         </Providers>
       </body>
     </html>
