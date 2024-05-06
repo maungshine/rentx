@@ -23,6 +23,7 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
     const router = useRouter();
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
+    console.log(session);
 
     return (
         <Card className='w-full'>

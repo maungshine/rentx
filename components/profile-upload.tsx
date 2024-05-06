@@ -84,7 +84,7 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
     return (
         <div>
             <form action="" className="hidden">
-                <Input id="picture" multiple={true}
+                <Input id="picture"
                     onChange={(e) =>
                         handleUpload(e)
 
