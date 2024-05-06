@@ -5,7 +5,7 @@ import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
-async function ProfileDropdown({ session, currentUser }: { session: Session | null, currentUser: CurrentUser | null }) {
+function ProfileDropdown({ session, currentUser }: { session: Session | null, currentUser: CurrentUser | null }) {
 
     const handleGoogleSignOut = () => {
         signOut();
