@@ -95,7 +95,7 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
 
             <div className="h-[120px] w-[120px] mt-4 rounded-full border-2 border-slate-600  relative">
                 {fileUrl.url !== ''
-                    ? <Image src={fileUrl.url || session?.user.image as string} width={120} height={120} className="h-full w-full rounded-full object-fit-cover" alt="user profile image" />
+                    ? <Image src={currentUser?.profileImageUrl || session?.user.image as string} width={120} height={120} className="h-full w-full rounded-full object-fit-cover" alt="user profile image" />
                     : <FaUserCircle className="h-full w-full text-neutral-500" />
 
                 }
