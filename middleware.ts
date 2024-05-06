@@ -49,7 +49,7 @@ export default auth(async (req) => {
         return Response.redirect(new URL('/signin', nextUrl));
     }
 
-    if (isProtectedRoute) {
+    if (!isLoggedIn && isProtectedRoute) {
         return Response.redirect(new URL('/signin', nextUrl));
     }
 
