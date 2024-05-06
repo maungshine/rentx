@@ -62,7 +62,7 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
                     </>
                     :
                     <>
-                        <p>{session?.user?.email}</p>
+
                         <Input
                             name='name'
                             type='text'
@@ -86,7 +86,7 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
 
                         />
                         {session?.user.provider === 'google' &&
-                            <p className='py-4 rounded-xl border-red-400 border-2 bg-red-300'>You are logged in with third party provider and the email can't be changed</p>
+                            <p className='py-4 rounded-xl border-red-400 border-2 bg-red-300'>You are logged in with third party provider and the email can&#39t be changed</p>
                         }
                         {noti.message &&
                             //@ts-ignore
