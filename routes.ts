@@ -17,6 +17,11 @@ export const authRoutes = [
     '/register',
 ]
 
+
+export const protectedRoutes = [
+    '/profile',
+]
+
 /**
  * An array of routes that are used for api authentication routes
  * These routes that start with this prefix are used for API

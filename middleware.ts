@@ -5,6 +5,7 @@ import {
     DEFAULT_LOGIN_REDIRECT,
     apiAuthPrefix,
     authRoutes,
+    protectedRoutes,
     publicRoutes
 } from '@/routes';
 const { auth } = NextAuth(authConfig);
@@ -27,6 +28,7 @@ export default auth(async (req) => {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+    const isProtectedRoute = protectedRoutes.includes(nextUrl.pathname)
 
 
 
@@ -44,6 +46,10 @@ export default auth(async (req) => {
     if (listingRoute) return;
 
     if (!isLoggedIn && !isPublicRoute) {
+        return Response.redirect(new URL('/signin', nextUrl));
+    }
+
+    if (isProtectedRoute) {
         return Response.redirect(new URL('/signin', nextUrl));
     }
 
