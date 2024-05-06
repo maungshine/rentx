@@ -17,17 +17,17 @@ const messageColors = {
     warning: 'yellow',
 }
 
-function ProfileInfo({ currentUser }: { currentUser: CurrentUser | null }) {
+function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null, session: Session | null }) {
     const [mode, setMode] = useState<'normal' | 'edit'>('normal');
     const [noti, setNoti] = useState<{ message: string, category: string }>({ message: '', category: '' })
     const router = useRouter();
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
-    const { data: session, update } = useSession()
-
-    useEffect(() => {
-        router.refresh();
-    }, [update])
+    // const { data: session, update } = useSession()
+    console.log('session : ', session)
+    // useEffect(() => {
+    //     router.refresh();
+    // }, [update])
 
 
     return (
@@ -40,7 +40,7 @@ function ProfileInfo({ currentUser }: { currentUser: CurrentUser | null }) {
                     </DropdownTrigger>
                     <DropdownMenu>
                         <DropdownItem>
-                            <Button variant='link' onClick={(e) => setMode('edit')}  >Edit</Button>
+                            <Button variant='link' onClick={(e) => setMode('edit')} >Edit</Button>
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -78,6 +78,7 @@ function ProfileInfo({ currentUser }: { currentUser: CurrentUser | null }) {
                             variant='bordered'
                             ref={nameRef}
 
+
                         />
                         <Input
                             name='email'
@@ -87,8 +88,12 @@ function ProfileInfo({ currentUser }: { currentUser: CurrentUser | null }) {
                             defaultValue={currentUser?.email}
                             variant='bordered'
                             ref={emailRef}
+                            disabled={session?.user.provider === 'google'}
 
                         />
+                        {session?.user.provider === 'google' &&
+                            <p className='py-4 rounded-xl border-red-400 border-2 bg-red-300'>You are logged in with third party provider and the email can't be changed</p>
+                        }
                         {noti.message &&
                             //@ts-ignore
                             <div className={`p-4 text-sm border-2 border-${messageColors[noti.category]}-600 rounded-xl bg-${messageColors[noti.category]}-200`}>
@@ -110,17 +115,20 @@ function ProfileInfo({ currentUser }: { currentUser: CurrentUser | null }) {
                                 if (res.success || res.warning) {
                                     toast.success('reached here')
 
-                                    update({
-                                        email: email,
-                                        name: name,
-                                        expires: new Date(new Date().getTime() + 600 * 1000)
-                                    })
+                                    // update({
+                                    //     email: email,
+                                    //     name: name,
+                                    //     expires: new Date(new Date().getTime() + 600 * 1000)
+                                    // })
 
 
 
                                     setMode('normal');
 
                                 }
+
+                                getSession();
+                                router.refresh();
 
                             }} variant='default'> Save</Button>
                         </div>
