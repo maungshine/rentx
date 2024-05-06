@@ -50,7 +50,7 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
                                 <p>{noti.message}</p>
                             </div>
                         }
-                        <p>{session?.user?.email}</p>
+
                         <div className='grid grid-cols-3 gap-4 bg-neutral-200 px-4 py-2 rounded-lg'>
                             <p className='border-r-2 col-span-1'>Name</p>
                             <p className='col-span-2'>{currentUser?.username}</p>
