@@ -5,6 +5,7 @@ import Providers from "./providers";
 import NavBar from "@/components/nav-bar";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
+import { getCurrentUser } from "@/lib/helper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,13 +20,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       <body className={inter.className}>
         <Providers>
 
 
-          <NavBar session={session} />
+          <NavBar session={session} currentUser={currentUser} />
           {children}
 
         </Providers>

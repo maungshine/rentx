@@ -7,10 +7,11 @@ import { useRouter } from "next/navigation";
 import Search from "./search";
 import Container from "./container";
 import { AddListing } from "./add-listing";
+import { CurrentUser } from "@/lib/form-schema";
 
 
 
-function NavBar({ session }: { session: Session | null }) {
+function NavBar({ session, currentUser }: { session: Session | null, currentUser: CurrentUser | null }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
     return (
@@ -60,7 +61,7 @@ function NavBar({ session }: { session: Session | null }) {
                     {!!session?.user && (
                         <>
                             <NavbarItem>
-                                <ProfileDropdown session={session} />
+                                <ProfileDropdown currentUser={currentUser} session={session} />
                             </NavbarItem>
                         </>
                     )}
