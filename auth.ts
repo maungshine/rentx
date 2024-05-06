@@ -25,14 +25,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         async signIn(params) {
 
             try {
-                const user = await db.user.findFirst({
-                    where: {
-                        email: params.profile?.email as string
-                    }
-                });
                 if (params.account?.provider === 'google') {
+                    const user = await db.user.findFirst({
+                        where: {
+                            email: params.profile?.email as string
+                        }
+                    });
 
-
+                    if (user) {
+                        return false
+                    }
                     if (!user) {
                         const createUser = await db.user.create({
                             data: {
