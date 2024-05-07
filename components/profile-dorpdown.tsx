@@ -13,6 +13,7 @@ function ProfileDropdown({ session, currentUser }: { session: Session | null, cu
 
         <Dropdown placement="bottom-start">
             <DropdownTrigger>
+
                 <User
                     as="button"
                     avatarProps={{
@@ -20,8 +21,7 @@ function ProfileDropdown({ session, currentUser }: { session: Session | null, cu
                         src: currentUser?.profileImageUrl || session?.user?.image as string,
                     }}
                     className="transition-transform"
-                    description={'@' + session?.user?.email?.split('@')[0]}
-                    name={session?.user?.name}
+                    name={''}
 
                 />
             </DropdownTrigger>

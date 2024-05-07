@@ -43,10 +43,10 @@ export async function ListingCard({ currentUser, listingId, title, type, locatio
 
     return (
 
-        <Card className={`border col-span-1 cursor-pointer group h-full${horizontal ? ' flex flex-row max-w-[800px] w-full mx-auto' : ''}`}>
+        <Card className={`border col-span-1 cursor-pointer group h-full${horizontal ? ' flex flex-row max-w-[800px] grow-0 w-full mx-auto' : ''}`}>
 
 
-            <CardContent className={`p-0 md:h-[160px] h-[240px] w-full relative overflow-hidden${horizontal ? ' aspect-square rounded-none w-[240px]' : ' rounded-t-xl'}`}>
+            <CardContent className={`p-0 relative overflow-hidden${horizontal ? ' w-[180px] rounded-none h-[160px]' : ' rounded-t-xl md:h-[160px] h-[240px] w-full'}`}>
                 <Image fill src={images[0].url} className={`h-full w-full object-cover group-hover:scale-110 transition${horizontal ? ' rounded-none' : ' rounded-t-xl group-hover:rounded-t-xl'}`} alt={title || 'property image'} />
                 <div className="absolute top-3 right-3">
                     <Suspense fallback={<Spinner />}>

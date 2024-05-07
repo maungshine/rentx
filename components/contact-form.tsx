@@ -18,7 +18,7 @@ function ContactForm() {
                 </div>
             )}
             <form action={action} className="grid place-content-center h-full">
-                <div className="p-8 flex flex-col gap-4 max-w-[600px] w-[400px] border-2 rounded-xl bg-gray-100">
+                <div className="p-8 flex flex-col gap-4 max-w-[600px] min-w-[360px] border-2 rounded-xl bg-gray-100">
                     <h1 className="px-2 text-center font-semibold text-neutral-800 text-xl">Contact Us</h1>
                     <Input
                         label='Name'

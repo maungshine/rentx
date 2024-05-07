@@ -328,7 +328,10 @@ function EditListingForm() {
                         Location
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
                         <Input
+                            className='col-span-2 md:col-span-1'
                             type="number"
                             label='lat'
                             placeholder="Enter latitude position"
@@ -345,6 +348,7 @@ function EditListingForm() {
                         />
 
                         <Input
+                            className='col-span-2 md:col-span-1'
                             type="number"
                             label='longitude'
                             placeholder="Enter longitude position"
@@ -358,6 +362,7 @@ function EditListingForm() {
                             isInvalid={!!form.formState.errors.long?.message}
                             errorMessage={form.formState.errors.long?.message}
                         />
+
 
                         <div className="mt-4 w-ful h-[50vh] col-span-2">
                             <Map lat={listing.latitude} long={listing.longitude} />

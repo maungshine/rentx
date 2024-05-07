@@ -47,27 +47,30 @@ function SelectLocation({ location, register, errors, setCustomValues }: SelectL
 
     return (
         <div className="flex flex-col gap-4">
-            <Input
-                type="number"
-                label='Latitude'
-                placeholder="Enter latitude position"
-                labelPlacement="inside"
-                variant="bordered"
-                isInvalid={!!errors.lat?.message}
-                errorMessage={errors.lat?.message}
-                {...register('lat', { required: 'Latitude is required' })}
-            />
+            <div className="flex flex-col md:flex-row gap-4">
 
-            <Input
-                type="number"
-                label='Longitude'
-                placeholder="Enter longitude position"
-                labelPlacement="inside"
-                variant="bordered"
-                isInvalid={!!errors.long?.message}
-                errorMessage={errors.long?.message}
-                {...register('long', { required: 'Longitude is required' })}
-            />
+                <Input
+                    type="number"
+                    label='Latitude'
+                    placeholder="Enter latitude position"
+                    labelPlacement="inside"
+                    variant="bordered"
+                    isInvalid={!!errors.lat?.message}
+                    errorMessage={errors.lat?.message}
+                    {...register('lat', { required: 'Latitude is required' })}
+                />
+
+                <Input
+                    type="number"
+                    label='Longitude'
+                    placeholder="Enter longitude position"
+                    labelPlacement="inside"
+                    variant="bordered"
+                    isInvalid={!!errors.long?.message}
+                    errorMessage={errors.long?.message}
+                    {...register('long', { required: 'Longitude is required' })}
+                />
+            </div>
 
             <div className="mt-4 w-ful h-[50vh]">
                 <Map lat={lat} long={long} />
