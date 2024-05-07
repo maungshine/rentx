@@ -8,7 +8,6 @@ import { saveInfo } from '@/actions/profileActions';
 import { useRouter } from 'next/navigation';
 import { CurrentUser } from '@/lib/form-schema';
 import { getSession, useSession } from 'next-auth/react';
-import { getCurrentUser } from '@/lib/helper';
 import toast from 'react-hot-toast';
 
 const messageColors = {
@@ -23,7 +22,7 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
     const router = useRouter();
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
-    console.log(session);
+
 
     return (
         <Card className='w-full'>
@@ -87,7 +86,7 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
 
                         />
                         {session?.user.provider === 'google' &&
-                            <p className='py-4 rounded-xl border-red-400 border-2 bg-red-300'>You are logged in with third party provider and the email can&#39t be changed</p>
+                            <p className='p-4 text-xs rounded-xl border-red-400 border-2 bg-red-300'>You are logged in with third party provider and the email cannot be changed</p>
                         }
                         {noti.message &&
                             //@ts-ignore

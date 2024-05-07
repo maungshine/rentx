@@ -17,6 +17,13 @@ export const authConfig = {
     providers: [Google({
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        profile(profile) {
+            return profile
+        },
+        account(account) {
+            return account
+        }
+
     }),
     CredentialsProvider({
         async authorize(credentials) {

@@ -8,6 +8,7 @@ CREATE TABLE "User" (
     "profileImageKey" TEXT,
     "role" TEXT NOT NULL,
     "emailVerified" BOOLEAN,
+    "provider" TEXT NOT NULL,
     "verificationCode" TEXT,
     "codeExpiredTime" TIMESTAMP(3),
     "resetToken" TEXT,

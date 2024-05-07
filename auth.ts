@@ -2,7 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import { authConfig } from "./auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import db from "./db/prisma";
-import { getUserById } from "./lib/helper";
+import { getUserByEmail } from "./lib/helper";
 
 declare module "next-auth" {
     interface Session {
@@ -50,36 +50,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             return true;
         },
-        async jwt({ token, account, profile }) {
+        async jwt({ token, account, profile, trigger }) {
 
-            if (!token.sub) {
+            if (trigger === 'signIn') {
+                token.picture = profile?.picture
+            }
+
+            if (!token.email) {
                 return token
             }
 
-            const currentUser = await getUserById(token.sub);
-
+            const currentUser = await getUserByEmail(token.email);
             if (!currentUser) {
+
                 return token
             }
-            //this will run when sign in flag is triggered
-            if (account?.provider === 'google') {
-                console.log(account);
-                console.log(profile);
-                token['provider'] = account.provider;
-            } else {
+
+            if (!token.provider && currentUser.provider === 'google') {
+
+                token.provider = currentUser.provider;
+
+            } else if (!token.provider) {
+
                 token.provider = 'credentials';
             }
 
-            token.picture = currentUser.profileImageUrl || profile?.picture;
+            token.picture = currentUser.profileImageUrl || token.picture;
             token.email = currentUser.email;
             token.name = currentUser.username;
-            token['role'] = currentUser.role;
+            token.role = currentUser.role;
 
             if (token.provider === 'credentials' && !currentUser.emailVerified) {
                 token.expires = new Date(new Date().getTime() + 300 * 1000)
             }
-            console.log('account: ', account);
-            console.log('profile: ', profile);
+
             return {
                 ...token,
 
@@ -90,7 +94,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         async session({ session, token }) {
 
-            console.log(token)
+
             return {
                 ...session,
                 expires: token.expires as ISODateString || session.expires,

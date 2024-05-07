@@ -162,10 +162,10 @@ export const getCurrentUser = async () => {
 }
 
 
-export const getUserById = async (id: string) => {
+export const getUserByEmail = async (email: string) => {
     const user = await db.user.findFirst({
         where: {
-            id,
+            email,
         }
     });
 
