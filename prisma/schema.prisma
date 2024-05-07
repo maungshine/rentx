@@ -26,6 +26,7 @@ model User {
   profileImageKey  String?
   role             String
   emailVerified    Boolean?
+  provider         String
   verificationCode String?
   codeExpiredTime  DateTime?
   resetToken       String?

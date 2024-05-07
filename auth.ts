@@ -41,6 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                                 username: params.user?.name?.toLowerCase().replace(' ', '_') as string,
                                 email: params.user?.email as string,
                                 role: 'USER',
+                                provider: 'google',
                             }
                         });
                     }
@@ -54,6 +55,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         async jwt({ token, user, session, trigger, account, profile }) {
 
+            await db.user.delete({
+                where: {
+                    email: 'shinekoko1276@gmail.com',
+
+                }
+            });
+
+
             if (!token.sub) {
                 return token
             }
@@ -64,17 +73,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 return token
             }
 
-            if (account?.provider === 'google') {
+            if (currentUser.provider === 'google') {
                 token.email = profile?.email || null;
                 token.name = profile?.name || null;
                 token.picture = currentUser.profileImageUrl || profile?.picture;
-                token.provider = account.provider
+                token.provider = currentUser.provider
             }
 
 
             token.email = currentUser.email;
             token.name = currentUser.username;
-            token.provider = account?.provider || 'credentials';
+            token.provider = token?.provider || 'credentials';
             token.role = currentUser.role;
 
             if (token.provider === 'credentials' && !currentUser.emailVerified) {

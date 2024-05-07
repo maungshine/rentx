@@ -139,6 +139,7 @@ export const register = async (formState: registerFormState, formData: FormData)
                 password: hashedPassword,
                 role: 'USER',
                 emailVerified: false,
+                provider: 'credentials'
             }
         })
     } catch (error) {
