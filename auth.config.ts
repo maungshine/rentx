@@ -4,7 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import db from "./db/prisma";
 import bcrypt from 'bcryptjs';
 import { loginFormSchema } from "./lib/form-schema";
-import { getUserById } from "./lib/helper";
 
 
 
