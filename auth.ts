@@ -53,7 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             return true;
         },
-        async jwt({ token, user, session, trigger, account, profile }) {
+        async jwt({ token, account, profile }) {
 
             if (!token.sub) {
                 return token
@@ -64,12 +64,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (!currentUser) {
                 return token
             }
-
-            if (currentUser.provider === 'google') {
-                token.picture = currentUser.profileImageUrl || profile?.picture;
+            //this will run when sign in flag is triggered
+            if (account?.provider === 'google') {
+                token['provider'] = account.provider;
+            } else {
+                token.provider = 'credentials';
             }
 
-            token['provider'] = currentUser.provider;
+            token.picture = currentUser.profileImageUrl || profile?.picture;
             token.email = currentUser.email;
             token.name = currentUser.username;
             token['role'] = currentUser.role;
@@ -88,7 +90,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         },
         async session({ session, token }) {
-
 
             console.log(token)
             return {
