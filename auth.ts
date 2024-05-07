@@ -63,6 +63,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             //this will run when sign in flag is triggered
             if (account?.provider === 'google') {
+                console.log(account);
+                console.log(profile);
                 token['provider'] = account.provider;
             } else {
                 token.provider = 'credentials';
