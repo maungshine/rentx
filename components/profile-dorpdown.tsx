@@ -1,11 +1,10 @@
-import { CurrentUser } from "@/lib/form-schema";
-import { getCurrentUser } from "@/lib/helper";
+import { UserWithListing } from "@/lib/helper";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Avatar, User } from "@nextui-org/react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
 
-function ProfileDropdown({ session, currentUser }: { session: Session | null, currentUser: CurrentUser | null }) {
+
+function ProfileDropdown({ session, currentUser }: { session: Session | null, currentUser: UserWithListing | null }) {
 
     const handleGoogleSignOut = () => {
         signOut();

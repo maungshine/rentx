@@ -1,12 +1,9 @@
 'use client';
-import { User } from "@prisma/client";
-import { useCallback, useEffect, useOptimistic, useState } from "react";
+import { useCallback, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { Button } from "./ui/button";
 import { favourite, hasFavourated } from "@/actions/favouriteActions";
-import toast from "react-hot-toast";
 import { Input } from "@nextui-org/input";
-import { CurrentUser } from "@/lib/form-schema";
+import { UserWithListing } from "@/lib/helper";
 
 
 interface HeartButtonProps {
@@ -15,7 +12,7 @@ interface HeartButtonProps {
 
 function HeartButton({ listingId }: HeartButtonProps) {
 
-    const [user, setUser] = useState<CurrentUser | null>(null);
+    const [user, setUser] = useState<UserWithListing | null>(null);
     const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
 
     const getUser = useCallback(() => {

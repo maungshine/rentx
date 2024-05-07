@@ -1,23 +1,16 @@
 'use client';
-import { hasFavourated } from "@/actions/favouriteActions";
-import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
-    CardHeader,
-    CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
 import { FaBath, FaBed, FaMapMarker, FaParking } from "react-icons/fa";
 import HeartButton from "./heart-button";
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
-import { CurrentUser } from "@/lib/form-schema";
-import { Skeleton, Spinner } from "@nextui-org/react";
+import { Suspense } from "react";
+import { Spinner } from "@nextui-org/react";
 import { UserWithListing } from "@/lib/helper";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { usePathname } from "next/navigation";
 
 interface ListingCardProps {

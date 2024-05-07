@@ -1,9 +1,6 @@
 import { ListingCard } from "@/components/ListingCard"
 import Container from "@/components/container";
 import { getCurrentUser } from "@/lib/helper"
-import { CurrentUser } from "@/lib/form-schema";
-import { Suspense } from "react";
-import SkeletonCard from "@/components/skeleton-card";
 
 
 async function MyListings() {

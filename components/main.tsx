@@ -1,13 +1,8 @@
 
-import { getAllListing } from '@/lib/query-listing';
-import React, { useState } from 'react'
+
 import HomepageListings from './homepage-listing';
-import FilterButton from './filter-button';
 import { ListingType } from './listing-page-card';
-import Category, { category } from './category';
-import Search from './search';
-import { getCurrentUser } from '@/lib/helper';
-import { CurrentUser } from '@/lib/form-schema';
+import { UserWithListing, getCurrentUser } from '@/lib/helper';
 import { SearchParamsType, filterListing } from '@/actions/listingActions';
 
 async function Main({ searchParams }: { searchParams: SearchParamsType }) {
@@ -16,7 +11,7 @@ async function Main({ searchParams }: { searchParams: SearchParamsType }) {
 
     return (
 
-        <HomepageListings allListing={allListing as ListingType[]} currentUser={currentUser as CurrentUser} />
+        <HomepageListings allListing={allListing as ListingType[]} currentUser={currentUser as UserWithListing} />
 
     )
 }

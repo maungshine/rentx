@@ -7,12 +7,12 @@ import { useRouter } from "next/navigation";
 import Search from "./search";
 import Container from "./container";
 import { AddListing } from "./add-listing";
-import { CurrentUser } from "@/lib/form-schema";
 import { usePathname } from "next/navigation";
+import { UserWithListing } from "@/lib/helper";
 
 
 
-function NavBar({ session, currentUser }: { session: Session | null, currentUser: CurrentUser | null }) {
+function NavBar({ session, currentUser }: { session: Session | null, currentUser: UserWithListing | null }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
