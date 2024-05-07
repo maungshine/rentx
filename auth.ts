@@ -32,9 +32,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         }
                     });
 
-                    if (user) {
-                        return false
-                    }
                     if (!user) {
                         const createUser = await db.user.create({
                             data: {
