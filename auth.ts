@@ -35,7 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     if (!user) {
                         const createUser = await db.user.create({
                             data: {
-                                username: params.user?.name?.toLowerCase().replace(' ', '_') as string,
+                                username: params.user?.email?.split('@')[0] as string,
                                 email: params.user?.email as string,
                                 role: 'USER',
                                 provider: 'google',
