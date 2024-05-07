@@ -69,13 +69,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 token.email = profile?.email || null;
                 token.name = profile?.name || null;
                 token.picture = currentUser.profileImageUrl || profile?.picture;
-                token.provider = currentUser.provider
             }
 
-
+            token.provider = currentUser.provider;
             token.email = currentUser.email;
             token.name = currentUser.username;
-            token.provider = token?.provider || 'credentials';
             token.role = currentUser.role;
 
             if (token.provider === 'credentials' && !currentUser.emailVerified) {
