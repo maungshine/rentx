@@ -21,7 +21,7 @@ function NavBar({ session, currentUser }: { session: Session | null, currentUser
                 <NavbarContent >
                     <NavbarMenuToggle
                         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                        className="sm:hidden"
+
                     />
 
                     <NavbarBrand onClick={() => router.push('/')} className="cursor-pointer flex-grow-0">
@@ -41,23 +41,23 @@ function NavBar({ session, currentUser }: { session: Session | null, currentUser
                     </NavbarItem>
                 </NavbarContent>
                 <NavbarContent justify="end">
-                    {!session && (
-                        <>
-                            <NavbarItem className="flex">
-                                <Button as={Link} color="primary" href="/signin" variant="flat">
-                                    Login
-                                </Button>
-                            </NavbarItem>
-                            <NavbarItem>
-                                <Button as={Link} color="primary" href="/register" variant="flat">
-                                    Sign Up
-                                </Button>
-                            </NavbarItem>
-                        </>
-                    )}
                     <NavbarItem className="hidden md:inline-block">
                         <AddListing session={session} />
                     </NavbarItem>
+                    {!session && (
+                        <>
+                            <NavbarItem className="flex">
+                                <Link color="foreground" href="/signin">
+                                    Login
+                                </Link>
+                            </NavbarItem>
+                            <NavbarItem>
+                                <Link color="foreground" href="/register" className="hover:mt-[2px] hover:border-b-2 hover:border-neutral-800" >
+                                    Sign Up
+                                </Link>
+                            </NavbarItem>
+                        </>
+                    )}
                     {!!session?.user && (
                         <>
                             <NavbarItem>
