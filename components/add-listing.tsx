@@ -265,10 +265,11 @@ export function AddListing({ session }: { session: Session | null }) {
             <Button
                 onClick={onAdd}
                 variant="outline"
-                className="rounded-xl py-2"
+                size={'sm'}
+                className="rounded-none text-sm bg-transparent text-md p-0 m-0 shadow-none h-[24px] hover:text-gray-600 text-gray-800 hover:bg-transparent hover:mt-[2px] py-2 border-0 hover:border-b-2 hover:border-neutral-800"
             >
-                <FaPlus className="md:mr-2" />
-                <span className="hidden md:inline-block">Add Listing</span>
+
+                Add Listing
             </Button>
 
             <DialogContent className="sm:max-w-[425px] h-[80vh] overflow-y-auto">

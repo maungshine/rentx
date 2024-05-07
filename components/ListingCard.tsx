@@ -15,13 +15,16 @@ import HeartButton from "./heart-button";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { CurrentUser } from "@/lib/form-schema";
-import { Spinner } from "@nextui-org/react";
+import { Skeleton, Spinner } from "@nextui-org/react";
+import { UserWithListing } from "@/lib/helper";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { usePathname } from "next/navigation";
 
 interface ListingCardProps {
-    currentUser: CurrentUser;
+    currentUser: UserWithListing | null;
     listingId: string;
-    title: string;
-    type: string;
+    title?: string;
+    type?: string;
     price: number;
     location: {
         street: string;
@@ -35,18 +38,23 @@ interface ListingCardProps {
         bath: number;
         parking: boolean;
     } | null,
-    availability: boolean;
+    availability?: boolean;
     images: { url: string; img_key: string; }[];
+    horizontal?: boolean;
 
 }
 
-export async function ListingCard({ currentUser, listingId, title, type, location, amenties, availability, images, price }: ListingCardProps) {
-
+export async function ListingCard({ currentUser, listingId, title, type, location, amenties, availability, images, price, horizontal = false }: ListingCardProps) {
+    const myListing = currentUser?.listings.filter((l) => l.listingId === listingId).length !== 0;
+    const pathname = usePathname();
 
     return (
-        <Card className="border col-span-1 cursor-pointer group h-full">
-            <CardContent className="p-0 md:h-[160px] h-[240px] w-full relative overflow-hidden rounded-t-xl">
-                <Image fill src={images[0].url} className="rounded-t-xl h-full w-full object-cover group-hover:rounded-t-xl group-hover:scale-110 transition" alt={title} />
+
+        <Card className={`border col-span-1 cursor-pointer group h-full${horizontal ? ' flex flex-row max-w-[800px] w-full mx-auto' : ''}`}>
+
+
+            <CardContent className={`p-0 md:h-[160px] h-[240px] w-full relative overflow-hidden${horizontal ? ' aspect-square rounded-none w-[240px]' : ' rounded-t-xl'}`}>
+                <Image fill src={images[0].url} className={`h-full w-full object-cover group-hover:scale-110 transition${horizontal ? ' rounded-none' : ' rounded-t-xl group-hover:rounded-t-xl'}`} alt={title || 'property image'} />
                 <div className="absolute top-3 right-3">
                     <Suspense fallback={<Spinner />}>
 
@@ -54,9 +62,9 @@ export async function ListingCard({ currentUser, listingId, title, type, locatio
                     </Suspense>
                 </div>
             </CardContent>
-            <Link href={`/listing/${listingId}`} key={listingId} >
-
-                <CardFooter className="flex flex-col items-start p-2 gap-1 justify-between">
+            <Link href={`/listing/${listingId}`} key={listingId} className={horizontal ? 'flex items-center relative w-full' : ''}>
+                {myListing && pathname === '/my-listing' && <Link href={`/listing/${listingId}/edit`} className="absolute top-4 right-4 hover:border-b-2 border-neutral-800">Edit</Link>}
+                <CardFooter className={`flex flex-col items-start p-2 gap-1 justify-between${horizontal ? '' : ''}`}>
                     <p className="font-semibold mb-2">${price}/mo</p>
                     <div className="flex gap-1 flex-wrap">
                         {amenties?.bedroom && (
@@ -82,6 +90,7 @@ export async function ListingCard({ currentUser, listingId, title, type, locatio
                     </div>
                 </CardFooter>
             </Link>
+
         </Card>
     )
 }

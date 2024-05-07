@@ -12,7 +12,7 @@ function RegisterForm() {
     });
     return (
         <div className="w-[400px] mx-auto h-[100vh] flex flex-col" >
-            <div className="my-auto flex flex-col gap-8">
+            <div className="my-auto flex flex-col gap-8 border-2 rounded-xl bg-gray-100 p-8">
                 <div>
                     <h2 className="text-center font-semibold text-2xl">Create an account</h2>
                     {formState.success.message && (

@@ -15,7 +15,6 @@ function ProfileDropdown({ session, currentUser }: { session: Session | null, cu
         <Dropdown placement="bottom-start">
             <DropdownTrigger>
                 <User
-
                     as="button"
                     avatarProps={{
                         isBordered: true,
@@ -27,18 +26,23 @@ function ProfileDropdown({ session, currentUser }: { session: Session | null, cu
 
                 />
             </DropdownTrigger>
-            <DropdownMenu aria-label="User Actions" variant="flat">
+            <DropdownMenu aria-label="User Actions" variant="solid" className="space-y-4 p-4">
                 <DropdownItem key="profile" className="h-14 gap-2">
                     <p className="font-bold">Signed in as</p>
                     <p className="font-bold">{session?.user?.name}</p>
                 </DropdownItem>
-                <DropdownItem key="settings">
-                    <Link href='/profile'>
-                        Profile
-                    </Link>
+                <DropdownItem href="/profile" key="profilePage">
+
+                    Profile
+
+                </DropdownItem>
+                <DropdownItem href="/my-listing" key="yourListing">
+
+                    Your Listings
+
                 </DropdownItem>
 
-                <DropdownItem key="logout" color="danger" as={Button} onClick={() => handleGoogleSignOut()}>
+                <DropdownItem key="logout" onClick={() => handleGoogleSignOut()}>
                     Log Out
                 </DropdownItem>
             </DropdownMenu>

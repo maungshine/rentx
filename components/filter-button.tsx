@@ -188,8 +188,8 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                     <DialogTitle className="p-4 text-center" >Fliter Down The Listings</DialogTitle>
                     <DialogDescription>
                         <Card>
-                            <CardContent>
-                                <form action={handleSubmit} className="p-4 flex flex-col gap-4">
+                            <form action={handleSubmit} >
+                                <CardContent className="p-4 flex flex-col gap-4">
                                     <div className="flex gap-4">
                                         <Input
                                             placeholder="Min pirce"
@@ -267,8 +267,8 @@ function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[])
                                         ))}
                                     </div>
                                     <Button type="button" onClick={() => handleSubmit()}>Apply Filters</Button>
-                                </form>
-                            </CardContent>
+                                </CardContent>
+                            </form>
                         </Card>
                     </DialogDescription>
                 </DialogHeader>

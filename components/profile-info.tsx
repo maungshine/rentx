@@ -6,9 +6,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button } from './ui/button';
 import { saveInfo } from '@/actions/profileActions';
 import { useRouter } from 'next/navigation';
-import { CurrentUser } from '@/lib/form-schema';
+
 import { getSession, useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import { UserWithListing } from '@/lib/helper';
 
 const messageColors = {
     error: 'red',
@@ -16,7 +17,7 @@ const messageColors = {
     warning: 'yellow',
 }
 
-function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null, session: Session | null }) {
+function ProfileInfo({ currentUser, session }: { currentUser: UserWithListing | null, session: Session | null }) {
     const [mode, setMode] = useState<'normal' | 'edit'>('normal');
     const [noti, setNoti] = useState<{ message: string, category: string }>({ message: '', category: '' })
     const router = useRouter();
@@ -25,7 +26,7 @@ function ProfileInfo({ currentUser, session }: { currentUser: CurrentUser | null
 
 
     return (
-        <Card className='w-full'>
+        <Card className='max-w-[800px] w-full mt-8'>
             <CardHeader className='text-center font-semibold text-neutral-800 justify-between flex'>
                 <h2>Profile Information</h2>
                 <Dropdown >

@@ -13,10 +13,7 @@ async function Listing({ params }: { params: { listingId: string } }) {
 
     return (
         <section className="mt-8">
-            {user?.listings.filter((listing) => listing.listingId === params.listingId).length !== 0 &&
-                <Link href={`/listing/${params.listingId}/edit`} className="xl:col-span-5 col-span-1  ml-auto text-slate-600 mr-4" underline="hover">Edit Listing</Link>
-            }
-            <Container classnames="grid grid-cols-5 gap-8">
+            <Container classnames=" grid grid-cols-5 gap-8">
                 <ListingPageCard listing={listing} images={listing?.images} />
                 <ListingAside listing={listing} />
 

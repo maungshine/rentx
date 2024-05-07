@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import { Session } from 'next-auth';
 import { Resend } from 'resend';
 import { v4 as uuidv4 } from "uuid";
+import { Prisma } from '@prisma/client';
 
 
 
@@ -115,6 +116,51 @@ export const getVerificationTokenByToken = async (verificationCode: string) => {
 
 
 
+export type UserWithListing = Prisma.UserGetPayload<{
+    select: {
+        id: true,
+        username: true,
+        email: true,
+        password: true,
+        profileImageKey: true,
+        profileImageUrl: true,
+        role: true,
+        emailVerified: true,
+        favouriteIds: true,
+        listings: {
+            include: {
+                listing: {
+                    select: {
+                        amenties: {
+                            select:
+                            {
+                                bedroom: true,
+                                bath: true,
+                                parking: true
+                            }
+                        },
+                        availability: true,
+                        id: true,
+                        images: true,
+                        location: {
+                            select: {
+                                city: true,
+                                township: true,
+                                ward: true,
+                                street: true,
+                                num: true,
+                            }
+                        },
+                        price: true,
+
+
+                    }
+                }
+            }
+        }
+    }
+}>
+
 
 export const getCurrentUser = async () => {
     try {
@@ -144,6 +190,35 @@ export const getCurrentUser = async () => {
                 listings: {
                     where: {
                         asignedBy: session.user?.id as string
+                    },
+                    include: {
+                        listing: {
+                            select: {
+                                amenties: {
+                                    select:
+                                    {
+                                        bedroom: true,
+                                        bath: true,
+                                        parking: true
+                                    }
+                                },
+                                availability: true,
+                                id: true,
+                                images: true,
+                                location: {
+                                    select: {
+                                        city: true,
+                                        township: true,
+                                        ward: true,
+                                        street: true,
+                                        num: true,
+                                    }
+                                },
+                                price: true,
+
+
+                            }
+                        }
                     }
                 }
             }

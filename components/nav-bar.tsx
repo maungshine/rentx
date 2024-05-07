@@ -8,14 +8,16 @@ import Search from "./search";
 import Container from "./container";
 import { AddListing } from "./add-listing";
 import { CurrentUser } from "@/lib/form-schema";
+import { usePathname } from "next/navigation";
 
 
 
 function NavBar({ session, currentUser }: { session: Session | null, currentUser: CurrentUser | null }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
+    const pathname = usePathname();
     return (
-        <Container>
+        <Container classnames=" shadow-sm">
 
             <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full" >
                 <NavbarContent >
@@ -30,18 +32,18 @@ function NavBar({ session, currentUser }: { session: Session | null, currentUser
                 </NavbarContent>
 
                 <NavbarContent className="flex" justify="center">
+                    {pathname === '/' &&
 
-                    <NavbarItem className="flex-1 md:flex hidden">
-                        <form className="flex flex-col" >
-                            <Search classnames="w-full" />
-                        </form>
-                    </NavbarItem>
-                    <NavbarItem className="inline-block md:hidden">
-                        <AddListing session={session} />
-                    </NavbarItem>
+                        <NavbarItem className="flex-1 md:flex hidden">
+                            <form className="flex flex-col" >
+                                <Search classnames="w-full" />
+                            </form>
+                        </NavbarItem>
+                    }
+
                 </NavbarContent>
                 <NavbarContent justify="end">
-                    <NavbarItem className="hidden md:inline-block">
+                    <NavbarItem >
                         <AddListing session={session} />
                     </NavbarItem>
                     {!session && (

@@ -6,7 +6,7 @@ import { handleGoogleSignIn } from "@/actions/authActions";
 function Social() {
     return (
         <form action={handleGoogleSignIn} className="flex flex-col">
-            <Button type="submit" color="primary" variant="solid">
+            <Button type="submit" className="bg-neutral-800 text-white" variant="solid">
                 <FaGoogle className="text-white text-xl" />
             </Button>
         </form>

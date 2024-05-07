@@ -9,9 +9,9 @@ import { ListingType } from "./listing-page-card";
 import Category from "./category";
 import Search from "./search";
 import FilterButton from "./filter-button";
-import { CurrentUser } from "@/lib/form-schema";
+import { UserWithListing } from "@/lib/helper";
 
-function HomepageListings({ allListing, currentUser }: { allListing: ListingType[], currentUser: CurrentUser }) {
+function HomepageListings({ allListing, currentUser }: { allListing: ListingType[], currentUser: UserWithListing }) {
     const [filteredListing, setFilteredListing] = useState<ListingType[] | null>(allListing);
     const filterListing = (l: ListingType[]) => {
         setFilteredListing(l)

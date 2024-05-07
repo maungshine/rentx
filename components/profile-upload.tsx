@@ -2,7 +2,7 @@
 
 import { deleteImage, getSignedURL } from "@/actions/image-uploads";
 import { uploadProfile } from "@/actions/profileActions";
-import { CurrentUser } from "@/lib/form-schema";
+import { UserWithListing } from "@/lib/helper";
 import { Input } from "@nextui-org/input"
 import { Label } from "@radix-ui/react-label"
 import { Session } from "next-auth"
@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { FaCamera, FaUserCircle } from "react-icons/fa"
 
 
-function ProfileUpload({ session, currentUser }: { session: Session | null, currentUser: CurrentUser | null }) {
+function ProfileUpload({ session, currentUser }: { session: Session | null, currentUser: UserWithListing | null }) {
     const [fileUrl, setFileUrl] = useState<{ url: string, img_key: string }>({ url: currentUser?.profileImageUrl || '', img_key: currentUser?.profileImageKey || '' });
 
     const handleDelete = async (img_key: string) => {
