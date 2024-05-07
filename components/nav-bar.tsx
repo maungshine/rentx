@@ -93,7 +93,7 @@ function NavBar({ session, currentUser }: { session: Session | null, currentUser
                     <NavbarMenuItem>
                         <Link
                             className="w-full hover:underline"
-                            href="#"
+                            href="/blog"
                             size="md"
                             color="foreground"
                         >
