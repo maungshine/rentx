@@ -47,7 +47,7 @@ function NavBar({ session, currentUser }: { session: Session | null, currentUser
                     {!session && (
                         <>
                             <NavbarItem className="flex">
-                                <Link color="foreground" href="/signin">
+                                <Link color="foreground" href="/signin" className="hover:mt-[2px] hover:border-b-2 hover:border-neutral-800">
                                     Login
                                 </Link>
                             </NavbarItem>
