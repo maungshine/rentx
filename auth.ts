@@ -55,14 +55,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         async jwt({ token, user, session, trigger, account, profile }) {
 
-            await db.user.delete({
-                where: {
-                    email: 'shinekoko1276@gmail.com',
-
-                }
-            });
-
-
             if (!token.sub) {
                 return token
             }
