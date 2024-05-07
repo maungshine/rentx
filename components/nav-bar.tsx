@@ -69,31 +69,35 @@ function NavBar({ session, currentUser }: { session: Session | null, currentUser
                 <NavbarMenu className="z-[999]">
                     <NavbarMenuItem>
                         <Link
-                            className="w-full"
-                            href="#"
-                            size="lg"
+                            className="w-full hover:underline"
+                            href="/about-us"
+                            size="md"
+                            color="foreground"
                         >
-                            Features
+                            About Us
                         </Link>
                     </NavbarMenuItem>
 
                     <NavbarMenuItem>
                         <Link
-                            className="w-full"
-                            href="#"
-                            size="lg"
+                            className="w-full hover:underline"
+                            href="contact-us"
+                            size="md"
+                            color="foreground"
+
                         >
-                            Customers
+                            Contact Us
                         </Link>
                     </NavbarMenuItem>
 
                     <NavbarMenuItem>
                         <Link
-                            className="w-full"
+                            className="w-full hover:underline"
                             href="#"
-                            size="lg"
+                            size="md"
+                            color="foreground"
                         >
-                            Integrations
+                            Blog
                         </Link>
                     </NavbarMenuItem>
 

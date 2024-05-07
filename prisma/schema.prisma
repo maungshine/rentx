@@ -12,9 +12,9 @@ generator client {
 // }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
@@ -38,9 +38,9 @@ model User {
 }
 
 model UserListings {
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  listing   Listing @relation(fields: [listingId], references: [id])
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId String
   asignedBy String
 
@@ -48,9 +48,9 @@ model UserListings {
 }
 
 model Favourites {
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  listing   Listing @relation(fields: [listingId], references: [id])
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId String
   asignedBy String
 
@@ -102,4 +102,11 @@ model Amenties {
   listingId String
 
   @@unique([listingId])
+}
+
+model ContactUs {
+  id      String @id @default(cuid())
+  name    String
+  email   String
+  subject String
 }

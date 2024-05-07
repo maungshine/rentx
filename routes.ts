@@ -4,7 +4,13 @@
  * @type {string[]} 
  */
 export const publicRoutes = [
-    '/', '/email-verification', '/get-reset-link', '/password-reset'
+    '/',
+    '/email-verification',
+    '/get-reset-link',
+    '/password-reset',
+    '/about-us',
+    '/contact-us',
+    '/blog'
 ];
 
 /**

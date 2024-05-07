@@ -8,7 +8,6 @@ import { loginFormSchema } from "@/lib/form-schema";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { generatePasswordResetToken, generateVerificationCode, getVerificationTokenByToken, sendPasswordResetEmail, sendVerificationEmail } from "@/lib/helper";
-import { getSession } from "next-auth/react";
 
 const registerFormSchema = z.object({
     username: z.string().min(6).regex(/[a-z-]/, {
