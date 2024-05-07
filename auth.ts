@@ -66,15 +66,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
 
             if (currentUser.provider === 'google') {
-                token.email = profile?.email || null;
-                token.name = profile?.name || null;
                 token.picture = currentUser.profileImageUrl || profile?.picture;
             }
 
-            token.provider = currentUser.provider;
+            token['provider'] = currentUser.provider;
             token.email = currentUser.email;
             token.name = currentUser.username;
-            token.role = currentUser.role;
+            token['role'] = currentUser.role;
 
             if (token.provider === 'credentials' && !currentUser.emailVerified) {
                 token.expires = new Date(new Date().getTime() + 300 * 1000)
