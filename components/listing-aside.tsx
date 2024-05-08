@@ -1,7 +1,5 @@
 'use client';
-import { Card, CardBody, CardHeader } from "@nextui-org/react"
 import { ListingType } from "./listing-page-card"
-import { useMemo } from "react";
 import dynamic from "next/dynamic";
 import SkeletonCard from "./skeleton-card";
 

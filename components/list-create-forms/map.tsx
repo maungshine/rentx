@@ -28,7 +28,7 @@ const BlueIcon = icon({
 })
 
 function Map({ lat, long, allListings, current }: SelectLocationProps) {
-    console.log(allListings)
+
 
     return (
         <MapContainer center={[lat, long]} zoom={13} scrollWheelZoom={true} className='w-full h-full z-0 relative'>
