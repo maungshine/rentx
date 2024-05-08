@@ -5,6 +5,7 @@ import Providers from "./providers";
 import NavBar from "@/components/nav-bar";
 import { auth } from "@/auth";
 import { getCurrentUser } from "@/lib/helper";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,13 +23,15 @@ export default async function RootLayout({
   const currentUser = await getCurrentUser();
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen`}>
         <Providers>
 
 
           <NavBar session={session} currentUser={currentUser} />
-          {children}
-
+          <main className="mb-8">
+            {children}
+          </main>
+          <Footer />
         </Providers>
       </body>
     </html>

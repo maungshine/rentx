@@ -17,7 +17,7 @@ function NavBar({ session, currentUser }: { session: Session | null, currentUser
     const router = useRouter();
     const pathname = usePathname();
     return (
-        <Container classnames=" shadow-sm">
+        <Container classnames=" shadow-sm w-full">
 
             <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full" >
                 <NavbarContent >

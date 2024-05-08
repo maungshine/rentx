@@ -11,7 +11,7 @@ function Providers({ children }: { children: React.ReactNode }) {
         <NextUIProvider>
 
 
-            <div className="relative">
+            <div className="relative flex flex-col min-h-screen">
 
                 <Toaster position='top-right' />
 

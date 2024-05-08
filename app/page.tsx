@@ -11,11 +11,11 @@ import Image from "next/image";
 export default async function Home({ searchParams }: { searchParams: { category: string } }) {
 
   return (
-    <main>
+    <div>
       <Container>
 
         <Main searchParams={searchParams} />
       </Container>
-    </main>
+    </div>
   );
 }
