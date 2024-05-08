@@ -40,7 +40,7 @@ function Map({ lat, long, allListings, current }: SelectLocationProps) {
             {allListings &&
                 allListings.map((listing) => (
 
-                    <Marker icon={!current || current === listing?.id ? ICON : BlueIcon} position={[listing?.latitude as number, listing?.longitude as number]} >
+                    <Marker key={listing?.id} icon={!current || current === listing?.id ? ICON : BlueIcon} position={[listing?.latitude as number, listing?.longitude as number]} >
                         <Popup className='p-0'>
                             <Link href={`/listing/${listing?.id}`} >
                                 <div className='h-[80px] w-[240px] p-0 bg-black rounded-none flex flex-row text-xs'>
