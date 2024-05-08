@@ -7,6 +7,7 @@ import { Input } from "@nextui-org/input"
 import { Label } from "@radix-ui/react-label"
 import { Session } from "next-auth"
 import Image from "next/image"
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -15,6 +16,7 @@ import { FaCamera, FaUserCircle } from "react-icons/fa"
 
 function ProfileUpload({ session, currentUser }: { session: Session | null, currentUser: UserWithListing | null }) {
     const [fileUrl, setFileUrl] = useState<{ url: string, img_key: string }>({ url: currentUser?.profileImageUrl || '', img_key: currentUser?.profileImageKey || '' });
+    const router = useRouter();
 
     const handleDelete = async (img_key: string) => {
         const res = await deleteImage(img_key);
@@ -26,7 +28,6 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
 
         setFileUrl({ url: '', img_key: '' })
 
-        toast.success('Deleted successfully')
     }
 
     const handleProfileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +77,7 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
 
         }
         e.target.files = null;
+        router.refresh();
         toast.success('Upload Success!')
 
     }
@@ -85,9 +87,10 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
         <div>
             <form action="" className="hidden">
                 <Input id="profile-picture"
-                    onChange={(e) =>
-                        handleProfileUpload(e)
+                    onChange={(e) => {
+                        handleProfileUpload(e);
 
+                    }
                     }
                     ref={profileRef} type="file" className="hidden" name="profileImage" />
 

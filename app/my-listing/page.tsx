@@ -9,7 +9,7 @@ async function MyListings() {
     return (
         <section className="mt-8">
             <Container classnames=" flex flex-col gap-4">
-                {listings ?
+                {listings?.length !== 0 ?
                     <>
                         <h1 className="text-2xl text-center font-semibold mb-4">Your Listings</h1>
                         {listings?.map((listing) =>
@@ -29,7 +29,7 @@ async function MyListings() {
                         )}
                     </>
                     :
-                    <h1>Your Listing is empty!</h1>
+                    <h1 className="text-center">Your Listing is empty!</h1>
                 }
             </Container>
         </section>

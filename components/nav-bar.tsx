@@ -43,9 +43,12 @@ function NavBar({ session, currentUser }: { session: Session | null, currentUser
 
                 </NavbarContent>
                 <NavbarContent justify="end">
-                    <NavbarItem >
-                        <AddListing session={session} />
-                    </NavbarItem>
+
+                    {session &&
+                        <NavbarItem >
+                            <AddListing session={session} />
+                        </NavbarItem>
+                    }
                     {!session && (
                         <>
                             <NavbarItem className="flex">
