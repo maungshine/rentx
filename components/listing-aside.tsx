@@ -9,7 +9,7 @@ function ListingAside({ listing, allListings }: { listing: ListingType, allListi
     return (
 
         <div className='xl:col-span-2 col-span-5 w-full xl:h-[80vh] h-[50vh]'>
-            <Map current={listing?.id} allListings={allListings} lat={listing ? listing.latitude : 16.8032} long={listing ? listing.longitude : 96.892} />
+            <Map current={listing} allListings={allListings} lat={listing ? listing.latitude : 16.8032} long={listing ? listing.longitude : 96.892} />
         </div>
 
     )
