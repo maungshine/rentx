@@ -8,10 +8,11 @@ import { UserWithListing } from "@/lib/helper";
 
 interface HeartButtonProps {
     listingId: string;
+    currentUser: UserWithListing | null
 }
 
-function HeartButton({ listingId }: HeartButtonProps) {
-    const [user, setUser] = useState<UserWithListing | null>(null);
+function HeartButton({ listingId, currentUser }: HeartButtonProps) {
+    const [user, setUser] = useState<UserWithListing | null>(currentUser);
     const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
     const [fav, setFav] = useState<boolean | null>(favourited);
 

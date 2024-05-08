@@ -51,7 +51,7 @@ export async function ListingCard({ currentUser, listingId, title, type, locatio
                 <div className="absolute top-3 right-3">
                     <Suspense fallback={<Spinner />}>
 
-                        <HeartButton listingId={listingId} />
+                        <HeartButton currentUser={currentUser} listingId={listingId} />
                     </Suspense>
                 </div>
             </CardContent>
