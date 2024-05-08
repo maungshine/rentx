@@ -35,9 +35,14 @@ function ProfileDropdown({ session, currentUser }: { session: Session | null, cu
                     Profile
 
                 </DropdownItem>
-                <DropdownItem href="/my-listing" key="yourListing">
+                <DropdownItem href="/listing/my-listing" key="yourListing">
 
-                    Your Listings
+                    My Listings
+
+                </DropdownItem>
+                <DropdownItem href="/listing/my-favourites" key="favourites">
+
+                    Favourites
 
                 </DropdownItem>
 

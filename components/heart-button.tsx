@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { favourite, hasFavourated } from "@/actions/favouriteActions";
 import { Input } from "@nextui-org/input";
@@ -14,19 +14,20 @@ function HeartButton({ listingId }: HeartButtonProps) {
 
     const [user, setUser] = useState<UserWithListing | null>(null);
     const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
+    const [fav, setFav] = useState(favourited);
 
-    const getUser = useCallback(() => {
+    useEffect(() => {
         fetch('/api/user')
             .then(res => res.json())
             .then((data) => {
                 setUser(data);
             })
-    }, [])
+    }, [fav])
 
     return (
         <form
             action={async (formData: FormData) => {
-                getUser();
+                setFav((prev) => !prev);
                 await favourite(formData);
 
             }}

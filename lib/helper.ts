@@ -126,7 +126,37 @@ export type UserWithListing = Prisma.UserGetPayload<{
         profileImageUrl: true,
         role: true,
         emailVerified: true,
-        favouriteIds: true,
+        favouriteIds: {
+            include: {
+                listing: {
+                    select: {
+                        amenties: {
+                            select:
+                            {
+                                bedroom: true,
+                                bath: true,
+                                parking: true
+                            }
+                        },
+                        availability: true,
+                        id: true,
+                        images: true,
+                        location: {
+                            select: {
+                                city: true,
+                                township: true,
+                                ward: true,
+                                street: true,
+                                num: true,
+                            }
+                        },
+                        price: true,
+
+
+                    }
+                }
+            }
+        },
         listings: {
             include: {
                 listing: {
@@ -185,7 +215,38 @@ export const getCurrentUser = async () => {
                 favouriteIds: {
                     where: {
                         asignedBy: session.user?.id as string
+                    },
+
+                    include: {
+                        listing: {
+                            select: {
+                                amenties: {
+                                    select:
+                                    {
+                                        bedroom: true,
+                                        bath: true,
+                                        parking: true
+                                    }
+                                },
+                                availability: true,
+                                id: true,
+                                images: true,
+                                location: {
+                                    select: {
+                                        city: true,
+                                        township: true,
+                                        ward: true,
+                                        street: true,
+                                        num: true,
+                                    }
+                                },
+                                price: true,
+
+
+                            }
+                        }
                     }
+
                 },
                 listings: {
                     where: {
