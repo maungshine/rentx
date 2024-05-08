@@ -1,9 +1,11 @@
 'use client';
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useOptimistic, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { favourite, hasFavourated } from "@/actions/favouriteActions";
 import { Input } from "@nextui-org/input";
 import { UserWithListing } from "@/lib/helper";
+import { Spinner } from "@nextui-org/react";
+import toast from "react-hot-toast";
 
 
 interface HeartButtonProps {
@@ -14,20 +16,22 @@ function HeartButton({ listingId }: HeartButtonProps) {
 
     const [user, setUser] = useState<UserWithListing | null>(null);
     const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
-    const [fav, setFav] = useState(favourited);
+    // const [fav, setFav] = useState(favourited);
+    const [optimistic, setOptimistic] = useOptimistic(favourited, (state, newValue: boolean) => newValue)
 
     useEffect(() => {
+        toast.success('reach here')
         fetch('/api/user')
             .then(res => res.json())
             .then((data) => {
                 setUser(data);
             })
-    }, [fav])
+    }, [optimistic])
 
     return (
         <form
             action={async (formData: FormData) => {
-                setFav((prev) => !prev);
+                setOptimistic(!favourited);
                 await favourite(formData);
 
             }}
@@ -46,6 +50,7 @@ function HeartButton({ listingId }: HeartButtonProps) {
                 "
             >
 
+
                 <AiOutlineHeart
                     size={28}
                     className="fill-white absolute -top-[2px] -right-[2px]"
@@ -53,8 +58,9 @@ function HeartButton({ listingId }: HeartButtonProps) {
 
                 <AiFillHeart
                     size={24}
-                    className={favourited ? 'fill-rose-500' : 'fill-white/60'}
+                    className={optimistic ? 'fill-rose-500' : 'fill-white/60'}
                 />
+
             </button>
         </form>
     )
