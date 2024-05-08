@@ -29,7 +29,7 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
         toast.success('Deleted successfully')
     }
 
-    const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleProfileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
         const file = e.target.files && e.target.files[0];
 
@@ -86,7 +86,7 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
             <form action="" className="hidden">
                 <Input id="picture"
                     onChange={(e) =>
-                        handleUpload(e)
+                        handleProfileUpload(e)
 
                     }
                     ref={profileRef} type="file" className="hidden" name="profileImage" />
