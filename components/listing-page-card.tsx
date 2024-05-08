@@ -52,7 +52,7 @@ function ListingPageCard({ listing, images }: { images: { url: string, img_key: 
             <CarouselImage classes={show ? ' visible' : ' hidden'} images={images} selected={selected} closeCarousel={closeCarousel} />
             <div className="col-span-5 grid grid-cols-5 gap-4 w-full">
 
-                <div className="xl:col-span-4 col-span-5 h-[400px] w-full">
+                <div className="xl:col-span-4 col-span-5 md:h-[400px] h-[240px] w-full">
                     {images && images.map((img) => (
 
                         selected === img.img_key &&
