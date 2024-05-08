@@ -44,6 +44,7 @@ function ImageUpload({ fileUrl, setFileUrl, imageList, setImageList, register }:
                 setImageList((prev) => [...prev, el])
                 imgList.push(el)
             })
+            console.log('this get called');
 
             // if (fileUrl.length > 0) {
             //     fileUrl.forEach((url) => {

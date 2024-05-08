@@ -84,7 +84,7 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
     return (
         <div>
             <form action="" className="hidden">
-                <Input id="picture"
+                <Input id="profile-picture"
                     onChange={(e) =>
                         handleProfileUpload(e)
 
@@ -99,7 +99,7 @@ function ProfileUpload({ session, currentUser }: { session: Session | null, curr
                     : <FaUserCircle className="h-full w-full text-neutral-500" />
 
                 }
-                <Label htmlFor="picture" className="absolute bottom-4 right-4 cursor-pointer">
+                <Label htmlFor="profile-picture" className="absolute bottom-4 right-4 cursor-pointer">
                     <FaCamera className="text-black" />
                 </Label>
             </div>
