@@ -1,11 +1,9 @@
 'use client';
-import { Suspense, startTransition, useCallback, useEffect, useOptimistic, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { favourite, hasFavourated } from "@/actions/favouriteActions";
+import { favourite } from "@/actions/favouriteActions";
 import { Input } from "@nextui-org/input";
 import { UserWithListing } from "@/lib/helper";
-import { Spinner } from "@nextui-org/react";
-import toast from "react-hot-toast";
 
 
 interface HeartButtonProps {
@@ -13,26 +11,33 @@ interface HeartButtonProps {
 }
 
 function HeartButton({ listingId }: HeartButtonProps) {
+    const [user, setUser] = useState<UserWithListing | null>(null);
+    const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
+    const [fav, setFav] = useState<boolean | null>(favourited);
 
-    const [fav, setFav] = useState<boolean | null>(null);
 
-
-    console.log('run')
     useEffect(() => {
+        async function getUser(): Promise<UserWithListing> {
 
-        fetch('/api/user',
-            {
-                cache: 'no-cache',
-                next: {
-                    tags: ['HeartButton'],
-                }
-            })
-            .then(res => res.json())
-            .then((user) => {
-                const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
+            return fetch('/api/user',
+                {
+                    cache: 'no-cache',
+                    next: {
+                        tags: ['HeartButton'],
+                    }
+                })
+                .then(res => res.json() as Promise<{ data: UserWithListing }>)
+                .then((data) => {
 
-                setFav(favourited);
-            })
+                    return data.data
+                })
+        }
+
+        getUser().then(user => {
+
+            setUser(user);
+
+        })
     }, [fav])
 
     return (
