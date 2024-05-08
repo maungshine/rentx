@@ -14,7 +14,7 @@ interface SelectLocationProps {
     lat: number;
     long: number;
     allListings?: ListingType[];
-    current?: string;
+    current?: string | null;
 }
 
 const ICON = icon({
@@ -27,7 +27,7 @@ const BlueIcon = icon({
     iconSize: [32, 32]
 })
 
-function Map({ lat, long, allListings, current }: SelectLocationProps) {
+function Map({ lat, long, allListings, current = null }: SelectLocationProps) {
 
 
     return (
