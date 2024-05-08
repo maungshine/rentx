@@ -294,7 +294,7 @@ export function AddListing({ session }: { session: Session | null }) {
                 <form action="" className="flex flex-col gap-8 h-full" onSubmit={handleSubmit(onSubmit)}>
                     {currentStep === STEPS.CATGORY && <SelectTownship setCustomValue={setCustomValue} register={register} townshipSelect={townshipSelect} setTownshipSelect={setTownshipSelect} />}
                     {currentStep === STEPS.Type && <SelectType setCustomValue={setCustomValue} register={register} typeSelect={typeSelect} setTypeSelect={setTypeSelect} />}
-                    {currentStep === STEPS.LOCATION && <SelectLocation setCustomValues={setCustomValue} errors={formState.errors} register={register} location={{ lat: lat, long: long }} />}
+                    {currentStep === STEPS.LOCATION && <SelectLocation errors={formState.errors} register={register} location={{ lat: lat, long: long }} />}
                     {currentStep === STEPS.Address && <Address register={register} errors={formState.errors} />}
                     {currentStep === STEPS.AMENTIES && <Amenties setCustomValue={setCustomValue} register={register} amentiesList={{ bedroom, bath, parking }} />}
                     {currentStep === STEPS.DESCRIPTION && <TitleDescription errors={formState.errors} register={register} />}

@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction, Suspense, use, useEffect, useMemo, use
 import SkeletonMap from "./skeleton-map";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { FormValues, Names } from "../add-listing";
+import { ListingType } from "../listing-page-card";
 
 
 
@@ -16,10 +17,9 @@ interface SelectLocationProps {
     };
     errors: FieldErrors<FormValues>;
     register: UseFormRegister<FormValues>;
-    setCustomValues: (id: Names, value: any) => void;
 }
 
-function SelectLocation({ location, register, errors, setCustomValues }: SelectLocationProps) {
+function SelectLocation({ location, register, errors }: SelectLocationProps) {
     const [lat, setLat] = useState(location.lat);
     const [long, setLong] = useState(location.long);
 
