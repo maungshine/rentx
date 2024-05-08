@@ -56,7 +56,7 @@ export async function ListingCard({ currentUser, listingId, title, type, locatio
                 </div>
             </CardContent>
             <Link href={`/listing/${listingId}`} key={listingId} className={horizontal ? 'flex items-center relative w-full' : ''}>
-                {myListing && pathname === '/my-listing' && <Link href={`/listing/${listingId}/edit`} className="absolute top-4 right-4 hover:border-b-2 border-neutral-800">Edit</Link>}
+                {myListing && pathname === '/listing/my-listing' && <Link href={`/listing/${listingId}/edit`} className="absolute top-4 right-4 hover:border-b-2 border-neutral-800">Edit</Link>}
                 <CardFooter className={`flex flex-col items-start p-2 gap-1 justify-between${horizontal ? '' : ''}`}>
                     <p className="font-semibold mb-2">${price}/mo</p>
                     <div className="flex gap-1 flex-wrap">
