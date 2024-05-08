@@ -10,7 +10,7 @@ function ResetEmailForm() {
 
 
     return (
-        <div className="w-[400px] mx-auto h-[100vh] flex flex-col" >
+        <div className="max-w-[400px] w-[360px] md:w-full mx-auto h-[100vh] flex flex-col" >
             <div className="my-auto flex flex-col gap-8">
                 <div>
                     <h2 className="text-center font-semibold text-2xl">Get Password Reset Link To Your Inbox</h2>
