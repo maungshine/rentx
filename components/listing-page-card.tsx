@@ -78,13 +78,13 @@ function ListingPageCard({ listing, images }: { images: { url: string, img_key: 
 
             <div className="col-span-5 flex flex-col gap-4">
                 <h2 className="mt-4 text-semibold text-2xl text-slate-600">{listing && listing.title}</h2>
-                <div className="flex">
-                    <p className="text-slate-600">${listing && listing.price}</p>
-                    <div className="flex mt-1 gap-2 align-items-center text-slate-400 ml-auto">
-                        <FaMapMarker />
-                        <p>{listing && listing.location?.street} ,{listing && listing.location?.ward},{listing && listing.location?.township} ,{listing && listing.location?.city}</p>
-                    </div>
+
+                <p className="text-slate-600">${listing && listing.price}</p>
+                <div className="flex mt-1 gap-2 align-items-center text-slate-400">
+                    <FaMapMarker />
+                    <p>{listing && listing.location?.street} ,{listing && listing.location?.ward},{listing && listing.location?.township} ,{listing && listing.location?.city}</p>
                 </div>
+
                 <div className="flex gap-8">
                     {listing?.amenties?.bedroom && (
                         <span className="flex gap-1 items-center justify-start border border-slate-200 rounded-lg px-2 py-1 text-neutral-600">

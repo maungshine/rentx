@@ -14,6 +14,7 @@ async function Listing({ params }: { params: { listingId: string } }) {
     return (
         <section className="mt-8">
             <Container classnames=" grid grid-cols-5 gap-8">
+
                 <ListingPageCard listing={listing} images={listing?.images} />
                 <ListingAside listing={listing} />
 
