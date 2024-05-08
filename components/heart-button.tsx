@@ -16,11 +16,11 @@ function HeartButton({ listingId }: HeartButtonProps) {
 
     const [user, setUser] = useState<UserWithListing | null>(null);
     const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
-    // const [fav, setFav] = useState(favourited);
+
     const [optimistic, setOptimistic] = useOptimistic(favourited, (state, newValue: boolean) => newValue)
 
     useEffect(() => {
-        toast.success('reach here')
+
         fetch('/api/user')
             .then(res => res.json())
             .then((data) => {
