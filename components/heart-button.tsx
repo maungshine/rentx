@@ -1,5 +1,5 @@
 'use client';
-import { Suspense, useCallback, useEffect, useOptimistic, useState } from "react";
+import { Suspense, startTransition, useCallback, useEffect, useOptimistic, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { favourite, hasFavourated } from "@/actions/favouriteActions";
 import { Input } from "@nextui-org/input";
@@ -14,24 +14,31 @@ interface HeartButtonProps {
 
 function HeartButton({ listingId }: HeartButtonProps) {
 
-    const [user, setUser] = useState<UserWithListing | null>(null);
-    const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
+    const [fav, setFav] = useState<boolean | null>(null);
 
-    const [optimistic, setOptimistic] = useOptimistic(favourited, (state, newValue: boolean) => newValue)
 
+    console.log('run')
     useEffect(() => {
 
-        fetch('/api/user')
-            .then(res => res.json())
-            .then((data) => {
-                setUser(data);
+        fetch('/api/user',
+            {
+                cache: 'no-cache',
+                next: {
+                    tags: ['HeartButton'],
+                }
             })
-    }, [optimistic])
+            .then(res => res.json())
+            .then((user) => {
+                const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
+
+                setFav(favourited);
+            })
+    }, [fav])
 
     return (
         <form
             action={async (formData: FormData) => {
-                setOptimistic(!favourited);
+                setFav((prev) => !prev)
                 await favourite(formData);
 
             }}
@@ -58,7 +65,7 @@ function HeartButton({ listingId }: HeartButtonProps) {
 
                 <AiFillHeart
                     size={24}
-                    className={optimistic ? 'fill-rose-500' : 'fill-white/60'}
+                    className={fav ? 'fill-rose-500' : 'fill-white/60'}
                 />
 
             </button>

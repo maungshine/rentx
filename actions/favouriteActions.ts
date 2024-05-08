@@ -63,7 +63,7 @@ export const favourite = async (formData: FormData) => {
         }
     }
 
-    // revalidateTag('HeartButton');
+    // revalidateTag('AiOutlineHeart');
 
     return {
         errors: {}
