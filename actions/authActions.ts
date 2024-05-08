@@ -15,6 +15,7 @@ const registerFormSchema = z.object({
     }),
     email: z.string().email(),
     password: z.string().min(8),
+    role: z.enum(['normal_user', 'real_estate_agent_or_owner'])
 })
 
 const resetPasswordFormSchema = z.object({
@@ -136,7 +137,7 @@ export const register = async (formState: registerFormState, formData: FormData)
                 username: result.data.username,
                 email: result.data.email,
                 password: hashedPassword,
-                role: 'USER',
+                role: result.data.role,
                 emailVerified: false,
                 provider: 'credentials'
             }

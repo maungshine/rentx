@@ -4,6 +4,7 @@ import { Input } from "@nextui-org/input";
 import Social from "./social";
 import { register } from "@/actions/authActions";
 import FormButton from "./form-button";
+import { Select, SelectItem } from "@nextui-org/react";
 
 
 function RegisterForm() {
@@ -52,9 +53,22 @@ function RegisterForm() {
                         isInvalid={!!formState.errors.password}
                         errorMessage={formState.errors.password?.join(', ')}
                     />
+                    <Select
+                        label="Select user type"
+                        labelPlacement="inside"
+                        variant="bordered"
+                        name="role"
+                    >
+                        <SelectItem key={'normal_user'} value='normal_user'>
+                            Normal User
+                        </SelectItem>
+                        <SelectItem key={'real_estate_agent_or_owner'} value='real_estate_agent_or_owner'>
+                            Real Estate Agent Or Owner
+                        </SelectItem>
+                    </Select>
 
                     {formState.errors._form && (
-                        <div className="bg-red-200 text-red-600 border border-2 border-red-300 py-3 px-2 rounded-lg">
+                        <div className="bg-red-200 text-red-600 border-2 border-red-300 py-3 px-2 rounded-lg">
                             {formState.errors._form.join(', ')}
                         </div>
                     )}

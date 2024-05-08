@@ -19,8 +19,12 @@ export default auth(async (req) => {
         //further check if the request route is /listing/[listingId]/edit which is a authenticated route
 
         const listingEditRoute = /\/listing\/\w*\/edit/.test(nextUrl.pathname);
+        const myListingRoute = '/listing/my-listing' === nextUrl.pathname;
+        const myFavRoute = '/listing/my-favourites' === nextUrl.pathname;
+
+        const protectedListingRoutes = listingEditRoute || myListingRoute || myFavRoute;
         console.log(listingEditRoute);
-        if (listingEditRoute && !isLoggedIn) {
+        if (protectedListingRoutes && !isLoggedIn) {
             return Response.redirect(new URL('/signin', nextUrl));
         }
     }
@@ -46,6 +50,7 @@ export default auth(async (req) => {
     if (listingRoute) return;
 
     if (!isLoggedIn && !isPublicRoute) {
+        console.log('yes')
         return Response.redirect(new URL('/signin', nextUrl));
     }
 
