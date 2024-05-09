@@ -63,7 +63,6 @@ export const favourite = async (formData: FormData) => {
         }
     }
 
-    revalidatePath('/listing/my-favourites');
 
     return {
         errors: {}

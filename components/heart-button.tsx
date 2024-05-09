@@ -4,6 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { favourite } from "@/actions/favouriteActions";
 import { Input } from "@nextui-org/input";
 import { UserWithListing } from "@/lib/helper";
+import { useRouter } from "next/navigation";
 
 
 interface HeartButtonProps {
@@ -15,7 +16,7 @@ function HeartButton({ listingId, currentUser }: HeartButtonProps) {
     const [user, setUser] = useState<UserWithListing | null>(currentUser);
     const favourited = user ? user.favouriteIds.filter((fav) => fav.listingId === listingId).length === 1 : false;
     const [fav, setFav] = useState<boolean | null>(favourited);
-
+    const router = useRouter();
 
     useEffect(() => {
         async function getUser(): Promise<UserWithListing> {
@@ -46,6 +47,7 @@ function HeartButton({ listingId, currentUser }: HeartButtonProps) {
             action={async (formData: FormData) => {
                 setFav((prev) => !prev)
                 await favourite(formData);
+                router.refresh();
 
             }}
         >

@@ -37,7 +37,7 @@ interface ListingCardProps {
 
 }
 
-export async function ListingCard({ currentUser, listingId, title, type, location, amenties, availability, images, price, horizontal = false }: ListingCardProps) {
+export function ListingCard({ currentUser, listingId, title, type, location, amenties, availability, images, price, horizontal = false }: ListingCardProps) {
     const myListing = currentUser?.listings.filter((l) => l.listingId === listingId).length !== 0;
     const pathname = usePathname();
 
@@ -49,10 +49,10 @@ export async function ListingCard({ currentUser, listingId, title, type, locatio
             <CardContent className={`p-0 relative overflow-hidden${horizontal ? ' w-[180px] rounded-none h-[160px]' : ' rounded-t-xl md:h-[160px] h-[240px] w-full'}`}>
                 <Image fill src={images[0].url} className={`h-full w-full object-cover group-hover:scale-110 transition${horizontal ? ' rounded-none' : ' rounded-t-xl group-hover:rounded-t-xl'}`} alt={title || 'property image'} />
                 <div className="absolute top-3 right-3">
-                    <Suspense fallback={<Spinner />}>
 
-                        <HeartButton currentUser={currentUser} listingId={listingId} />
-                    </Suspense>
+
+                    <HeartButton currentUser={currentUser} listingId={listingId} />
+
                 </div>
             </CardContent>
             <Link href={`/listing/${listingId}`} key={listingId} className={horizontal ? 'flex items-center relative w-full' : ''}>
