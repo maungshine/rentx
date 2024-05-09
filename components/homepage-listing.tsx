@@ -36,7 +36,7 @@ function HomepageListings({ allListing, currentUser }: { allListing: ListingCard
 
 
 
-            <LoadMore currentUser={currentUser} />
+            <LoadMore firstListing={filteredListing} currentUser={currentUser} />
         </Container>
     )
 }
