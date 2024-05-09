@@ -20,9 +20,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ListingType } from "./listing-page-card";
 import queryString from "query-string";
 import { filterListing } from "@/actions/listingActions";
+import { ListingCardJSX } from "./load-more";
 
 
-function FilterButton({ filteredListing }: { filteredListing: (l: ListingType[]) => void }) {
+function FilterButton({ filteredListing }: { filteredListing: (l: ListingCardJSX[]) => void }) {
 
     let minPriceRef = useRef<HTMLInputElement>(null);
     let maxPriceRef = useRef<HTMLInputElement>(null);

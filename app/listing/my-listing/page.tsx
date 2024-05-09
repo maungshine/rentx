@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/lib/helper"
 async function MyListings() {
     const user = await getCurrentUser();
     const listings = user?.listings
-    console.log(listings);
+
     return (
         <section className="mt-8">
             <Container classnames=" flex flex-col gap-4">

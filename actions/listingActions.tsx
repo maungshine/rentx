@@ -1,10 +1,13 @@
 'use server';
 import { auth } from '@/auth';
+import { ListingCard } from '@/components/ListingCard';
 import { ListingType } from '@/components/edit-listing/edit-listing-form';
+import SkeletonCard from '@/components/skeleton-card';
 import db from '@/db/prisma';
 import { getCurrentUser } from '@/lib/helper';
 import { error } from 'console';
 import { revalidatePath } from 'next/cache';
+import { Suspense } from 'react';
 import { z } from 'zod';
 
 
@@ -43,6 +46,7 @@ export type SearchParamsType = {
     parking?: string,
     propertyType?: string,
     query?: string,
+    page?: string,
 }
 
 
@@ -210,12 +214,15 @@ export const saveListing = async (data: ListingType) => {
 
 export type q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category', 'query']
 
-export const filterListing = async (searchParams: SearchParamsType) => {
+export const filterListing = async (searchParams: SearchParamsType, page?: number) => {
+    const currentUser = await getCurrentUser();
     let q: q = ['minPrice', 'maxPrice', 'bedroom', 'bath', 'parking', 'propertyType', 'category', 'query'];
     let query: SearchParamsType = {};
     console.log(searchParams);
     if (Object.keys(searchParams).length === 0) {
         const listings = await db.listing.findMany({
+            take: 3,
+            skip: page ? page * 3 : 0,
             include: {
                 amenties: {
                     select: {
@@ -242,7 +249,16 @@ export const filterListing = async (searchParams: SearchParamsType) => {
             }
         });
 
-        return listings;
+        return listings.map((listing, index) => (
+            <div key={listing && listing.id}>
+                {listing &&
+                    <Suspense fallback={<SkeletonCard />}>
+                        <ListingCard index={index} currentUser={currentUser} listingId={listing.id} price={listing.price} title={listing.title} type={listing.type} location={listing.location} amenties={listing.amenties} availability={listing.availability} images={listing.images} />
+                    </Suspense>
+                }
+            </div>
+
+        ));
     } else {
 
         q.forEach((value) => {
@@ -318,7 +334,8 @@ export const filterListing = async (searchParams: SearchParamsType) => {
 
         console.log(constructedWhere);
         const listings = await db.listing.findMany({
-
+            take: 3,
+            skip: page ? page * 3 : 0,
             where: constructedWhere,
 
             include: {
@@ -348,6 +365,15 @@ export const filterListing = async (searchParams: SearchParamsType) => {
 
         })
 
-        return listings
+        return listings.map((listing, index) => (
+            <div key={listing && listing.id}>
+                {listing &&
+                    <Suspense fallback={<SkeletonCard />}>
+                        <ListingCard index={index} currentUser={currentUser} listingId={listing.id} price={listing.price} title={listing.title} type={listing.type} location={listing.location} amenties={listing.amenties} availability={listing.availability} images={listing.images} />
+                    </Suspense>
+                }
+            </div>
+
+        ));
     }
 }
