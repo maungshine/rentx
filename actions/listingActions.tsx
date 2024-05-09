@@ -221,8 +221,8 @@ export const filterListing = async (searchParams: SearchParamsType, page?: numbe
     console.log(searchParams);
     if (Object.keys(searchParams).length === 0) {
         const listings = await db.listing.findMany({
-            take: 3,
-            skip: page ? page * 3 : 0,
+            take: 10,
+            skip: page ? page * 10 : 0,
             include: {
                 amenties: {
                     select: {
@@ -334,8 +334,8 @@ export const filterListing = async (searchParams: SearchParamsType, page?: numbe
 
         console.log(constructedWhere);
         const listings = await db.listing.findMany({
-            take: 3,
-            skip: page ? page * 3 : 0,
+            take: 10,
+            skip: page ? page * 10 : 0,
             where: constructedWhere,
 
             include: {

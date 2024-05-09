@@ -12,9 +12,10 @@ export type ListingCardJSX = JSX.Element;
 
 type LoadMoreProps = {
     currentUser: UserWithListing | null,
+    firstListing: ListingCardJSX[] | null,
 }
 
-function LoadMore({ currentUser }: LoadMoreProps) {
+function LoadMore({ currentUser, firstListing }: LoadMoreProps) {
     const { ref, inView } = useInView();
     const searchParams = useSearchParams();
     const [loading, setLoading] = useState<boolean>(true)
@@ -39,8 +40,11 @@ function LoadMore({ currentUser }: LoadMoreProps) {
     useEffect(() => {
         const params = convertParams(searchParams);
         setParams(params);
-        setLoading(true);
         setListings([]);
+        if (!firstListing) {
+            setLoading(true);
+        }
+        page = 1
     }, [searchParams])
 
     useEffect(() => {
