@@ -2,7 +2,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useCallback } from "react";
 import qs from 'query-string';
-import { category } from "./category";
+
 
 interface CategoryBoxProps {
     name: string;
@@ -33,6 +33,7 @@ function CategoryBox({ name, selected }: CategoryBoxProps) {
         }, { skipNull: true })
 
         router.push(url)
+
     }, [name, router, params])
     return (
         <div className="bg-slate-100 flex-1 rounded-xl px-[1px] py-[1px] w-full md:w-auto">

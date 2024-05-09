@@ -16,9 +16,9 @@ function HomepageListings({ allListing, currentUser }: { allListing: ListingType
     const filterListing = (l: ListingType[]) => {
         setFilteredListing(l)
     }
-    // useEffect(() => {
-    //     setFilteredListing(allListing);
-    // }, [allListing])
+    useEffect(() => {
+        setFilteredListing(allListing);
+    }, [allListing])
 
     return (
         <Container>
