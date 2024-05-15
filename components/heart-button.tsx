@@ -5,6 +5,7 @@ import { favourite } from "@/actions/favouriteActions";
 import { Input } from "@nextui-org/input";
 import { UserWithListing } from "@/lib/helper";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 
 interface HeartButtonProps {
@@ -45,6 +46,10 @@ function HeartButton({ listingId, currentUser }: HeartButtonProps) {
     return (
         <form
             action={async (formData: FormData) => {
+                if (!currentUser) {
+                    toast.error('You need to logged in to save listing.');
+                    return
+                }
                 setFav((prev) => !prev)
                 await favourite(formData);
                 router.refresh();
