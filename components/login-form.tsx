@@ -30,7 +30,7 @@ function LoginForm() {
                     <Input
                         type="password"
                         variant="bordered"
-                        label='Name'
+                        label='Password'
                         labelPlacement="inside"
                         name="password"
                         placeholder="******"
