@@ -14,8 +14,7 @@ const registerFormSchema = z.object({
         message: 'Must be lowercase letters or dashes without spaces.'
     }),
     email: z.string().email(),
-    password: z.string().min(8),
-    role: z.enum(['normal_user', 'real_estate_agent_or_owner'])
+    password: z.string().min(8)
 })
 
 const resetPasswordFormSchema = z.object({
@@ -137,7 +136,7 @@ export const register = async (formState: registerFormState, formData: FormData)
                 username: result.data.username,
                 email: result.data.email,
                 password: hashedPassword,
-                role: result.data.role,
+                role: 'NORMAL',
                 emailVerified: false,
                 provider: 'credentials'
             }

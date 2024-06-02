@@ -41,7 +41,7 @@ export const authConfig = {
                         return null;
                     }
 
-                    const isPasswordCorrect = await bcrypt.compare(credentials.password as string, user.password as string);
+                    const isPasswordCorrect = await bcrypt.compare(password as string, user.password as string);
 
                     if (!isPasswordCorrect) {
                         return null;
