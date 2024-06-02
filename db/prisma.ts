@@ -16,6 +16,19 @@ if (process.env.NODE_ENV === 'production') {
     db = global.db;
 }
 
+async function deleteAllUser () {
+
+    await db.user.deleteMany({
+        where: {
+            role: undefined
+        }
+    })
+}
+
+deleteAllUser();
+
+
+
 
 
 export default db;

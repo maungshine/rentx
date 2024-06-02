@@ -111,3 +111,5 @@ model ContactUs {
   email   String
   subject String
 }
+
+
